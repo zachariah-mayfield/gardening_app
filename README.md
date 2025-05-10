@@ -46,12 +46,19 @@ git clone https://github.com/zachariah-mayfield/gardening_app.git
 cd gardening_app
 ```
 
-2. Start with Docker Compose:
+2. Run the Setup script:
+```bash
+cd /z/Main/github-repos/gardening_app
+chmod +x setup/*.sh
+./setup/start.sh
+```
+
+3. Start with Docker Compose:
 ```bash
 docker-compose up --build
 ```
 
-3. Access the application:
+4. Access the application:
 - Frontend: http://localhost:3000
 - Backend API: http://localhost:8000
 - API Documentation: http://localhost:8000/api/docs/
