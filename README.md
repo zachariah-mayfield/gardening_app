@@ -55,7 +55,7 @@ chmod +x setup/*.sh
 
 3. Start with Docker Compose:
 ```bash
-docker-compose up --build
+docker-compose up -d --build
 ```
 
 4. Access the application:
