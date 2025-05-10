@@ -86,4 +86,7 @@ celerybeat.pid
 postgres_data/
 *.sqlite3
 *.db
-"""
+
+# === Virtual Environment ===
+venv/
+
