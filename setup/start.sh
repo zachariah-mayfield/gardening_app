@@ -8,3 +8,4 @@ echo "🚀 Running init_env.sh..."
 
 echo "📦 Starting Docker Compose..."
 docker-compose up -d --build
+
