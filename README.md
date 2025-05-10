@@ -1,10 +1,13 @@
-# Full Stack Web App with FastAPI, React, and PostgreSQL
+# A full-stack FastAPI-based React, and PostgreSQL web application for managing garden plants, maintenance schedules, and tracking plants, built with SQLAlchemy for database management, Docker for containerization, and pgAdmin for database management.
 
 # Gardening App
 
-A full-stack application for managing garden plants and maintenance schedules.
-
 ## 🌱 Features
+
+- Add plants to a database with a name and description.
+- View all plants stored in the database.
+- CORS support for frontend communication.
+- Database integration with PostgreSQL using SQLAlchemy.
 
 - Plant catalog with care instructions
 - Maintenance scheduling and reminders
@@ -62,6 +65,16 @@ docker-compose up -d --build
 - Frontend: http://localhost:3000
 - Backend API: http://localhost:8000
 - API Documentation: http://localhost:8000/api/docs/
+- pgAdmin: http://localhost:5050/browser/
+
+## Technologies
+
+- **Backend**: FastAPI
+- **Database**: PostgreSQL
+- **ORM**: SQLAlchemy
+- **Frontend**: React (To be added later)
+- **Database Management**: pgAdmin
+
 
 ## 📝 Environment Variables
 
