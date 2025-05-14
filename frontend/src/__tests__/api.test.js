@@ -1,5 +1,5 @@
 // Import API functions to test
-import { fetchPlants, addPlant, updatePlantById, updatePlantByName } from '../api';
+import { fetchPlants, addPlant, updatePlantById, updatePlantByName } from '../services/api';
 
 // Mock the global fetch function
 global.fetch = jest.fn();

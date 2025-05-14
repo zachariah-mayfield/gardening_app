@@ -1,8 +1,15 @@
 // Z:\Main\github-repos\gardening_app\frontend\src\App.js
+
+
+
+
+
+// ...existing code...
+
 import React, { useState, useEffect } from 'react';
 // Import all necessary API functions
-import { fetchPlants } from './api';
-import PlantForm from './PlantForm';
+import { fetchPlants } from './services';
+import { PlantForm } from './components';
 
 /**
  * Main App Component

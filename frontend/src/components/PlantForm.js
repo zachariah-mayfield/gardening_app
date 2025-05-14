@@ -1,7 +1,7 @@
 // Z:\Main\github-repos\gardening_app\frontend\src\PlantForm.js
 import React, { useState, useEffect } from 'react';
 // Import both add and update functions from api.js
-import { addPlant, updatePlantById, updatePlantByName } from './api';
+import { addPlant, updatePlantById, updatePlantByName } from '../services/api';
 
 /**
  * PlantForm Component

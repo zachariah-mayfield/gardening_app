@@ -2,8 +2,8 @@
 import React from 'react';
 import { render, fireEvent, waitFor, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import PlantForm from '../PlantForm';
-import * as api from '../api';
+import { PlantForm } from '../components/PlantForm';
+import * as api from '../services/api';
 
 // Mock the entire api module
 jest.mock('../api');

@@ -262,10 +262,36 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
     2. frontend (React application)
     3. db (PostgreSQL database)
     4. pgadmin (Database management UI)
-- I am using:
-    1. A named volume postgres_data
-    2. A bridge network app-network
-    3. Environment variables from .env
 
-## Frontend Notes:
-- 
+
+# Frontend Project Structure
+
+```
+frontend/
+├── src/
+│   ├── components/     # React components
+│   │   ├── index.js   # Component exports
+│   │   └── PlantForm.js
+│   ├── services/      # API and service functions
+│   │   ├── index.js   # Service exports
+│   │   └── api.js
+│   ├── __tests__/     # Test files
+│   ├── App.js         # Main application component
+│   └── index.js       # Application entry point
+```
+
+## Frontend Directory Organization
+
+### components/
+Contains reusable React components. Each component should:
+- Be in its own file
+- Export as default
+- Include prop-types
+- Have associated tests
+
+### services/
+Contains API calls and other services. The api.js file:
+- Handles all backend communication
+- Uses environment variables for configuration
+- Includes error handling
+- Returns promises for async operations
