@@ -64,7 +64,7 @@ docker-compose up -d --build
 4. Access the application:
 - Frontend: http://localhost:3000
 - Backend API: http://localhost:8000
-- API Documentation: http://localhost:8000/api/docs/
+- API Documentation: http://localhost:8000/docs/
 - pgAdmin: http://localhost:5050/browser/
 
 ## Technologies
@@ -254,3 +254,18 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - Django REST Framework for the API framework
 - Docker for containerization
 - GitHub Actions for CI/CD
+
+## Backend Notes:
+- CORS (Cross-Origin Resource Sharing) middleware is crucial for frontend-backend communication
+- I have 4 services in my docker-compose.yml file:
+    1. backend (FastAPI application)
+    2. frontend (React application)
+    3. db (PostgreSQL database)
+    4. pgadmin (Database management UI)
+- I am using:
+    1. A named volume postgres_data
+    2. A bridge network app-network
+    3. Environment variables from .env
+
+## Frontend Notes:
+- 
