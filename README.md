@@ -263,7 +263,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
     3. db (PostgreSQL database)
     4. pgadmin (Database management UI)
 
-
 # Frontend Project Structure
 
 ```
