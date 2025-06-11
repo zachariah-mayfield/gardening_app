@@ -295,3 +295,62 @@ Contains API calls and other services. The api.js file:
 - Uses environment variables for configuration
 - Includes error handling
 - Returns promises for async operations
+
+
+
+Frontend Structure
+
+frontend/
+  src/
+    components/
+      Plant/
+        PlantList.js       // Separate list component
+        PlantForm.js       // Form component
+        PlantItem.js       // Individual plant display
+      common/             // Reusable components
+        Button/
+        Input/
+        Loading/
+    hooks/               // Custom React hooks
+      usePlants.js      // Plant data management
+      useForm.js        // Form handling
+    services/
+      api/
+        plantApi.js     // Plant-specific API calls
+        index.js        // API exports
+    utils/              // Helper functions
+    context/            // React context if needed
+    styles/            // CSS/styling files
+
+
+
+Backend Structure
+
+backend/
+  app/
+    api/
+      v1/              # API versioning
+        plants/
+        maintenance/
+    models/           # Database models
+    schemas/          # Pydantic schemas
+    services/        # Business logic
+    utils/           # Helper functions
+    core/           # Core configurations
+    tests/          # Test files
+
+
+
+Project Root
+
+gardening_app/
+  frontend/
+  backend/
+  docker/
+    docker-compose.yml
+    docker-compose.dev.yml
+    docker-compose.prod.yml
+  docs/              # Documentation
+  scripts/          # Build/deployment scripts
+  .github/          # CI/CD workflows
+  .env.example      # Environment template
