@@ -17,5 +17,5 @@ export {
   updatePlantById,
   updatePlantByName,
   deletePlantById,
-  deletePlantByName,
+  #deletePlantByName,
 } from './api';
