@@ -53,6 +53,7 @@ jobs:
     - name: Run backend tests
       env:
         DATABASE_URL: postgresql://postgres:postgres@localhost:5432/testdb
+        PYTHONPATH: ${{ github.workspace }}/backend
       run: |
         cd backend/app
         python -m pytest __tests__/ -v
@@ -73,11 +74,15 @@ jobs:
         npm run format
 
     - name: Lint backend
+      env:
+        PYTHONPATH: ${{ github.workspace }}/backend
       run: |
         cd backend/app
         flake8 .
 
     - name: Type check backend
+      env:
+        PYTHONPATH: ${{ github.workspace }}/backend
       run: |
         cd backend/app
         mypy .
