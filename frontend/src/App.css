@@ -1,3 +1,14 @@
+/*
+ * App.css
+ *
+ * This file contains CSS styles specific to the App component and its children.
+ * Styles defined here will apply to elements rendered by App.js and its subcomponents.
+ *
+ * You can use this file to style the layout, colors, buttons, and other UI elements of your app.
+ *
+ * In React, you can import CSS files directly into your components to scope styles to those components.
+ */
+
 .App {
   text-align: center;
 }

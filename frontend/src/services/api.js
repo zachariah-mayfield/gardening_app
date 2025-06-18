@@ -3,6 +3,9 @@
 /**
  * Frontend API Service for Plant Management
  * This file handles all communication between the frontend and backend
+ *
+ * Each function here corresponds to a REST API endpoint in the FastAPI backend.
+ * These functions are imported and used by React components to fetch, add, update, or delete plant data.
  */
 
 // Define the base URL for all API requests
@@ -12,13 +15,10 @@ const API_BASE_URL = 'http://localhost:8000/api/v1';
 
 /**
  * Fetches all plants from the database
- * 
- * JavaScript Concepts Used:
- * - async/await: Makes asynchronous code look synchronous
- * - try/catch: Handles errors that might occur
- * - Arrow function: Modern way to write functions (() => {})
- * - Template literals: Strings with backticks that allow ${variables}
- * 
+ *
+ * This function sends a GET request to the backend to retrieve all plant records.
+ * It returns an array of plant objects, or an empty array if there is an error.
+ *
  * @returns {Promise<Array>} Returns a promise that resolves to an array of plants
  */
 export const fetchPlants = async () => {
@@ -53,14 +53,13 @@ export const fetchPlants = async () => {
 
 /**
  * Adds a new plant to the database
- * 
- * JavaScript Concepts Used:
- * - Object parameter: Function accepts an object with plant data
- * - JSON.stringify: Converts JavaScript object to JSON string
- * - HTTP POST: Creates new resources on the server
- * 
+ *
+ * This function sends a POST request to the backend to create a new plant.
+ * The newPlant parameter should be an object with 'name' and 'description' properties.
+ * If the plant name already exists, the backend will return an error.
+ *
  * @param {Object} newPlant - Object containing plant data (name, description)
- * @returns {Promise<Object>} Returns a promise that resolves to the created plant
+ * @returns {Promise<Object|null>} Returns a promise that resolves to the created plant, or null if failed
  */
 export const addPlant = async (newPlant) => {
     try {
@@ -92,6 +91,7 @@ export const addPlant = async (newPlant) => {
         const data = await response.json();
         return data;
     } catch (error) {
+        // If an error occurs, log it and return null
         console.error('Error adding plant:', error);
         return null; // Return null to indicate failure
     }
@@ -99,12 +99,10 @@ export const addPlant = async (newPlant) => {
 
 /**
  * Updates a plant by ID
- * 
- * JavaScript Concepts Used:
- * - Template literals: `${plantId}` injects the ID into the URL
- * - HTTP PUT: Updates existing resources on the server
- * - Error throwing: Passes errors up to the calling component
- * 
+ *
+ * This function sends a PUT request to the backend to update a plant by its database ID.
+ * The updatedPlant parameter should be an object with the new 'name' and 'description'.
+ *
  * @param {number} plantId - The database ID of the plant to update
  * @param {Object} updatedPlant - New plant data to apply
  * @returns {Promise<Object>} Returns a promise that resolves to the updated plant
@@ -131,6 +129,7 @@ export const updatePlantById = async (plantId, updatedPlant) => {
         const data = await response.json();
         return data;
     } catch (error) {
+        // If an error occurs, log it and rethrow so the UI can handle it
         console.error('Error updating plant:', error);
         throw error; // Propagate error to component for handling
     }
@@ -138,12 +137,10 @@ export const updatePlantById = async (plantId, updatedPlant) => {
 
 /**
  * Updates a plant by name
- * 
- * JavaScript Concepts Used:
- * - encodeURIComponent: Safely encode string for URL
- * - Optional chaining: errorData?.detail checks if detail exists
- * - Error propagation: throw passes errors up the call stack
- * 
+ *
+ * This function sends a PUT request to the backend to update a plant by its name.
+ * This is useful if you don't have the plant's ID but know its name.
+ *
  * @param {string} plantName - Name of the plant to update
  * @param {Object} updatedPlant - New plant data to apply
  * @returns {Promise<Object>} Returns a promise that resolves to the updated plant
@@ -173,7 +170,47 @@ export const updatePlantByName = async (plantName, updatedPlant) => {
         const data = await response.json();
         return data;
     } catch (error) {
+        // If an error occurs, log it and rethrow so the UI can handle it
         console.error('Error updating plant:', error);
         throw error; // Propagate error to component for handling
+    }
+};
+
+/**
+ * Deletes a plant by ID
+ *
+ * This function sends a DELETE request to the backend to remove a plant by its database ID.
+ *
+ * @param {number} plantId - The database ID of the plant to delete
+ * @returns {Promise<void>} Resolves if successful, throws error otherwise
+ */
+export const deletePlantById = async (plantId) => {
+    // Send a DELETE request to the backend
+    const response = await fetch(`${API_BASE_URL}/plants/id/${plantId}`, {
+        method: 'DELETE',
+    });
+    // If the response is not OK, throw an error so the UI can handle it
+    if (!response.ok) {
+        throw new Error('Failed to delete plant');
+    }
+};
+
+/**
+ * Deletes a plant by name
+ *
+ * This function sends a DELETE request to the backend to remove a plant by its name.
+ * This is useful if you don't have the plant's ID but know its name.
+ *
+ * @param {string} plantName - The name of the plant to delete
+ * @returns {Promise<void>} Resolves if successful, throws error otherwise
+ */
+export const deletePlantByName = async (plantName) => {
+    // Send a DELETE request to the backend
+    const response = await fetch(`${API_BASE_URL}/plants/name/${encodeURIComponent(plantName)}`, {
+        method: 'DELETE',
+    });
+    // If the response is not OK, throw an error so the UI can handle it
+    if (!response.ok) {
+        throw new Error('Failed to delete plant');
     }
 };

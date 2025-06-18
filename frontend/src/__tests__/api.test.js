@@ -1,5 +1,5 @@
 // Import API functions to test
-import { fetchPlants, addPlant, updatePlantById, updatePlantByName } from '../services/api';
+import { fetchPlants, addPlant, updatePlantById, updatePlantByName, deletePlantById, deletePlantByName } from '../services/api';
 
 // Mock the global fetch function
 global.fetch = jest.fn();
@@ -99,5 +99,33 @@ describe('API Service Tests', () => {
         );
 
         await expect(fetchPlants()).rejects.toThrow('Network error');
+    });
+
+    test('deletePlantById calls correct endpoint with DELETE method', async () => {
+        fetch.mockResolvedValueOnce({ ok: true });
+        await deletePlantById(42);
+        expect(fetch).toHaveBeenCalledWith(
+            'http://localhost:8000/api/v1/plants/id/42',
+            expect.objectContaining({ method: 'DELETE' })
+        );
+    });
+
+    test('deletePlantByName calls correct endpoint with DELETE method', async () => {
+        fetch.mockResolvedValueOnce({ ok: true });
+        await deletePlantByName('Rose');
+        expect(fetch).toHaveBeenCalledWith(
+            'http://localhost:8000/api/v1/plants/name/Rose',
+            expect.objectContaining({ method: 'DELETE' })
+        );
+    });
+
+    test('deletePlantById throws error on failure', async () => {
+        fetch.mockResolvedValueOnce({ ok: false });
+        await expect(deletePlantById(42)).rejects.toThrow('Failed to delete plant');
+    });
+
+    test('deletePlantByName throws error on failure', async () => {
+        fetch.mockResolvedValueOnce({ ok: false });
+        await expect(deletePlantByName('Rose')).rejects.toThrow('Failed to delete plant');
     });
 });

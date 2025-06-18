@@ -1,3 +1,4 @@
+# type: ignore[import]
 # Standard SQLAlchemy imports for database functionality
 from sqlalchemy import create_engine          # Core SQLAlchemy functionality for database connection
 from sqlalchemy.ext.declarative import declarative_base  # Base class for declarative models
@@ -44,6 +45,8 @@ SessionLocal = sessionmaker(
 Base = declarative_base()
 
 # Database Session Dependency
+# This function is used by FastAPI to provide a database session to each request.
+# It ensures that each request gets its own session, and that the session is closed after the request is complete.
 def get_db():
     """
     Creates and manages database sessions for API requests
@@ -61,7 +64,7 @@ def get_db():
             items = db.query(models.Item).all()
             return items
     """
-    db = SessionLocal()
+    db = SessionLocal()  # Create a new database session
     try:
         yield db              # Use the session in the request
     finally:
@@ -77,3 +80,8 @@ Base.metadata.create_all(bind=engine)
 # 2. models.py defines table structures that inherit from Base
 # 3. plant_router.py uses the database session for CRUD operations
 # 4. Frontend api.js connects to endpoints that use these database functions
+
+# In summary:
+# - This file sets up the connection to the PostgreSQL database using SQLAlchemy.
+# - It provides a session factory and a dependency for FastAPI endpoints to use.
+# - It ensures that database tables are created at startup (for development/testing).

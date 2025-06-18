@@ -32,6 +32,10 @@ class Plant(BaseModel):
 # This router will be included in main.py under the /api/v1 prefix
 router = APIRouter()
 
+# The following endpoints implement CRUD (Create, Read, Update, Delete) operations for plants.
+# Each endpoint uses dependency injection to get a database session (db: Session = Depends(get_db)).
+# All endpoints use SQLAlchemy ORM to interact with the PostgreSQL database.
+
 # GET endpoint to retrieve all plants from PostgreSQL
 # Route: GET /api/v1/plants
 @router.get("/plants", response_model=List[Plant])
@@ -228,3 +232,73 @@ async def update_plant_by_name(
         db.rollback()
         logger.error(f"Database error updating plant: {str(e)}")
         raise HTTPException(status_code=500, detail="Database error occurred")
+
+# DELETE endpoint to remove a plant by ID in PostgreSQL
+# Route: DELETE /api/v1/plants/id/{plant_id}
+@router.delete("/plants/id/{plant_id}", status_code=204)
+async def delete_plant_by_id(
+    plant_id: int,
+    db: Session = Depends(get_db)
+):
+    """
+    Deletes a plant from the PostgreSQL database by its ID.
+
+    Args:
+        plant_id (int): Database ID of the plant to delete
+        db (Session): Database session
+
+    Returns:
+        None (204 No Content)
+
+    Raises:
+        HTTPException: If plant not found
+    """
+    logger.debug(f"Attempting to delete plant with ID: {plant_id}")
+    db_plant = db.query(models.Plant).filter(models.Plant.id == plant_id).first()
+    if not db_plant:
+        logger.debug(f"Plant ID {plant_id} not found for deletion")
+        raise HTTPException(status_code=404, detail="Plant not found")
+    try:
+        db.delete(db_plant)
+        db.commit()
+        logger.info(f"Successfully deleted plant with ID: {plant_id}")
+    except Exception as e:
+        db.rollback()
+        logger.error(f"Database error deleting plant: {str(e)}")
+        raise HTTPException(status_code=500, detail="Database error occurred")
+    return
+
+# DELETE endpoint to remove a plant by name in PostgreSQL
+# Route: DELETE /api/v1/plants/name/{plant_name}
+@router.delete("/plants/name/{plant_name}", status_code=204)
+async def delete_plant_by_name(
+    plant_name: str,
+    db: Session = Depends(get_db)
+):
+    """
+    Deletes a plant from the PostgreSQL database by its name.
+
+    Args:
+        plant_name (str): Name of the plant to delete
+        db (Session): Database session
+
+    Returns:
+        None (204 No Content)
+
+    Raises:
+        HTTPException: If plant not found
+    """
+    logger.debug(f"Attempting to delete plant with name: {plant_name}")
+    db_plant = db.query(models.Plant).filter(models.Plant.name.ilike(plant_name.strip())).first()
+    if not db_plant:
+        logger.debug(f"Plant named '{plant_name}' not found for deletion")
+        raise HTTPException(status_code=404, detail="Plant not found")
+    try:
+        db.delete(db_plant)
+        db.commit()
+        logger.info(f"Successfully deleted plant with name: {plant_name}")
+    except Exception as e:
+        db.rollback()
+        logger.error(f"Database error deleting plant: {str(e)}")
+        raise HTTPException(status_code=500, detail="Database error occurred")
+    return

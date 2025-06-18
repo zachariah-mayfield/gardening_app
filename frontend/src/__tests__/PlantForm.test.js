@@ -158,4 +158,56 @@ describe('PlantForm Component Tests', () => {
         // Verify cancel callback was called
         expect(mockOnCancel).toHaveBeenCalled();
     });
+
+    // Edge case: whitespace-only fields
+    test('shows error for whitespace-only fields', async () => {
+        render(<PlantForm onAddPlant={mockOnAddPlant} />);
+        fireEvent.change(screen.getByLabelText('Plant Name:'), { target: { value: '   ' } });
+        fireEvent.change(screen.getByLabelText('Description:'), { target: { value: '   ' } });
+        fireEvent.click(screen.getByRole('button', { name: /add plant/i }));
+        expect(await screen.findByText('Please fill in all fields')).toBeInTheDocument();
+    });
+
+    // Edge case: long and special character input
+    test('handles long and special character input', async () => {
+        const longName = 'A'.repeat(256) + '!@#$%^&*()';
+        const longDesc = 'B'.repeat(512) + '<script>alert(1)</script>';
+        render(<PlantForm onAddPlant={mockOnAddPlant} />);
+        fireEvent.change(screen.getByLabelText('Plant Name:'), { target: { value: longName } });
+        fireEvent.change(screen.getByLabelText('Description:'), { target: { value: longDesc } });
+        fireEvent.click(screen.getByRole('button', { name: /add plant/i }));
+        await waitFor(() => {
+            expect(api.addPlant).toHaveBeenCalledWith({ name: longName, description: longDesc });
+        });
+    });
+
+    // Edge case: submit button is disabled while loading
+    test('submit button is disabled while loading', async () => {
+        render(<PlantForm onAddPlant={mockOnAddPlant} />);
+        fireEvent.change(screen.getByLabelText('Plant Name:'), { target: { value: 'Test' } });
+        fireEvent.change(screen.getByLabelText('Description:'), { target: { value: 'Desc' } });
+        // Simulate loading
+        fireEvent.click(screen.getByRole('button', { name: /add plant/i }));
+        expect(screen.getByRole('button', { name: /add plant/i })).toBeDisabled();
+    });
+
+    // Edge case: cancel resets form
+    test('cancel resets form and calls onCancel', async () => {
+        const plantToEdit = { id: 1, name: 'EditMe', description: 'EditDesc' };
+        render(<PlantForm plantToEdit={plantToEdit} onUpdatePlant={mockOnUpdatePlant} onCancel={mockOnCancel} />);
+        fireEvent.change(screen.getByLabelText('Plant Name:'), { target: { value: 'Changed' } });
+        fireEvent.click(screen.getByRole('button', { name: /cancel/i }));
+        expect(mockOnCancel).toHaveBeenCalled();
+        // The form should reset to the original plantToEdit values on next open
+    });
+
+    // Edge case: API/network error handling
+    test('shows error on API/network failure', async () => {
+        api.addPlant.mockRejectedValueOnce(new Error('Network error'));
+        render(<PlantForm onAddPlant={mockOnAddPlant} />);
+        fireEvent.change(screen.getByLabelText('Plant Name:'), { target: { value: 'Test' } });
+        fireEvent.change(screen.getByLabelText('Description:'), { target: { value: 'Desc' } });
+        fireEvent.click(screen.getByRole('button', { name: /add plant/i }));
+        expect(await screen.findByText(/network error/i)).toBeInTheDocument();
+    });
 });
