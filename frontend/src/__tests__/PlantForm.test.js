@@ -183,12 +183,14 @@ describe('PlantForm Component Tests', () => {
 
     // Edge case: submit button is disabled while loading
     test('submit button is disabled while loading', async () => {
+        // Mock addPlant to resolve after a delay
+        api.addPlant.mockImplementation(() => new Promise(resolve => setTimeout(() => resolve({ id: 1, name: 'Test', description: 'Desc' }), 100)));
+
         render(<PlantForm onAddPlant={mockOnAddPlant} />);
         fireEvent.change(screen.getByLabelText('Plant Name:'), { target: { value: 'Test' } });
         fireEvent.change(screen.getByLabelText('Description:'), { target: { value: 'Desc' } });
-        // Simulate loading
         fireEvent.click(screen.getByRole('button', { name: /add plant/i }));
-        // Wait for the button to change to 'Saving...' and be disabled
+        // The button should be disabled and show 'Saving...' while loading
         const savingButton = await screen.findByRole('button', { name: /saving.../i });
         expect(savingButton).toBeDisabled();
     });
