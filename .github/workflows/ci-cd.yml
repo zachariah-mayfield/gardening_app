@@ -39,7 +39,7 @@ jobs:
       - name: Run backend tests
         run: |
           cd backend
-          pytest app
+          PYTHONPATH=$(pwd) pytest app
 
       - name: Run frontend tests
         run: |
