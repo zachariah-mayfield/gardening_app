@@ -3,6 +3,7 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import App from '../App';
 import * as api from '../services/api';
+import PlantForm from '../components/PlantForm';
 
 // Mock the entire api module
 jest.mock('../services/api');
@@ -199,7 +200,7 @@ describe('App Component Tests', () => {
     test('accessibility: all buttons have accessible names', async () => {
         render(<App />);
         await waitFor(() => expect(screen.getByText('Rose')).toBeInTheDocument());
-        expect(screen.getByRole('button', { name: /edit/i })).toBeInTheDocument();
-        expect(screen.getByRole('button', { name: /delete/i })).toBeInTheDocument();
+        expect(screen.getAllByRole('button', { name: /edit/i }).length).toBeGreaterThan(0);
+        expect(screen.getAllByRole('button', { name: /delete/i }).length).toBeGreaterThan(0);
     });
 });

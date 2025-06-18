@@ -2,6 +2,14 @@
 import { fetchPlants, addPlant, updatePlantById, updatePlantByName, deletePlantById, deletePlantByName } from '../services/api';
 
 // Mock the global fetch function
+// All fetch mocks must provide a text() method for fetchPlants
+const mockFetchResponse = (data, ok = true, status = 200) => ({
+    ok,
+    status,
+    text: () => Promise.resolve(JSON.stringify(data)),
+    json: () => Promise.resolve(data),
+});
+
 global.fetch = jest.fn();
 
 // Group all API-related tests
@@ -11,10 +19,7 @@ describe('API Service Tests', () => {
         fetch.mockClear();
         // Mock successful response
         fetch.mockImplementation(() => 
-            Promise.resolve({
-                ok: true,
-                json: () => Promise.resolve([])
-            })
+            Promise.resolve(mockFetchResponse([]))
         );
     });
 
@@ -80,11 +85,7 @@ describe('API Service Tests', () => {
     test('handles API errors correctly', async () => {
         // Mock a failed API call
         fetch.mockImplementationOnce(() => 
-            Promise.resolve({
-                ok: false,
-                status: 404,
-                statusText: 'Not Found'
-            })
+            Promise.resolve(mockFetchResponse({}, false, 404))
         );
 
         // Expect the API call to throw an error
@@ -102,7 +103,7 @@ describe('API Service Tests', () => {
     });
 
     test('deletePlantById calls correct endpoint with DELETE method', async () => {
-        fetch.mockResolvedValueOnce({ ok: true });
+        fetch.mockResolvedValueOnce(mockFetchResponse({}, true));
         await deletePlantById(42);
         expect(fetch).toHaveBeenCalledWith(
             'http://localhost:8000/api/v1/plants/id/42',
@@ -111,7 +112,7 @@ describe('API Service Tests', () => {
     });
 
     test('deletePlantByName calls correct endpoint with DELETE method', async () => {
-        fetch.mockResolvedValueOnce({ ok: true });
+        fetch.mockResolvedValueOnce(mockFetchResponse({}, true));
         await deletePlantByName('Rose');
         expect(fetch).toHaveBeenCalledWith(
             'http://localhost:8000/api/v1/plants/name/Rose',
@@ -120,12 +121,12 @@ describe('API Service Tests', () => {
     });
 
     test('deletePlantById throws error on failure', async () => {
-        fetch.mockResolvedValueOnce({ ok: false });
+        fetch.mockResolvedValueOnce(mockFetchResponse({}, false));
         await expect(deletePlantById(42)).rejects.toThrow('Failed to delete plant');
     });
 
     test('deletePlantByName throws error on failure', async () => {
-        fetch.mockResolvedValueOnce({ ok: false });
+        fetch.mockResolvedValueOnce(mockFetchResponse({}, false));
         await expect(deletePlantByName('Rose')).rejects.toThrow('Failed to delete plant');
     });
 });

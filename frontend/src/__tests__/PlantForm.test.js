@@ -2,7 +2,7 @@
 import React from 'react';
 import { render, fireEvent, waitFor, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { PlantForm } from '../components/PlantForm';
+import PlantForm from '../components/PlantForm';
 import * as api from '../services/api';
 
 // Mock the entire api module
