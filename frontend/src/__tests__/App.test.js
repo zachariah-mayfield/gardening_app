@@ -5,7 +5,7 @@ import App from '../App';
 import * as api from '../services/api';
 
 // Mock the entire api module
-jest.mock('../api');
+jest.mock('../services/api');
 
 describe('App Component Tests', () => {
     // Sample plant data for testing

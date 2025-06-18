@@ -6,7 +6,7 @@ import { PlantForm } from '../components/PlantForm';
 import * as api from '../services/api';
 
 // Mock the entire api module
-jest.mock('../api');
+jest.mock('../services/api');
 
 describe('PlantForm Component Tests', () => {
     // Mock functions for component props

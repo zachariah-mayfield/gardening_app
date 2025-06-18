@@ -22,21 +22,22 @@ const API_BASE_URL = 'http://localhost:8000/api/v1';
  * @returns {Promise<Array>} Returns a promise that resolves to an array of plants
  */
 export const fetchPlants = async () => {
-    // try/catch blocks handle potential errors in our code
     try {
-        // 'await' pauses execution until the fetch request completes
-        // fetch is a browser API for making HTTP requests
-        const response = await fetch(`${API_BASE_URL}/plants`);
-        
+        // Use GET method and set headers to match test expectations
+        const response = await fetch(`${API_BASE_URL}/plants`, {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' }
+        });
+
         // Debugging logs to help understand what's happening
         console.log('Response Status:', response.status);
         const text = await response.text(); // Get response as text
         console.log('Response Body:', text);
 
         // Check if the request was successful
-        // response.ok is true for HTTP status codes 200-299
         if (!response.ok) {
-            throw new Error('Failed to fetch plants');
+            // Throw an error so tests and UI can handle it
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
 
         // Parse the JSON text into a JavaScript object
@@ -47,7 +48,7 @@ export const fetchPlants = async () => {
     } catch (error) {
         // If any error occurs in the try block, it's caught here
         console.error('Error fetching plants:', error);
-        return []; // Return empty array if there's an error
+        throw error; // Propagate error to tests and UI
     }
 };
 
