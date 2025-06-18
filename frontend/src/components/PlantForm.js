@@ -76,6 +76,11 @@ const PlantForm = ({ onAddPlant, onUpdatePlant, plantToEdit, onCancel }) => {
                 // If not editing, add a new plant
                 console.log("Adding new plant:", plantData);
                 data = await addPlant(plantData);
+                if (!data) {
+                    setError('Failed to add plant. The name may already exist or there was a problem.');
+                    setIsLoading(false);
+                    return;
+                }
                 onAddPlant(data); // Notify parent component of addition
             }
 
