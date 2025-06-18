@@ -11,9 +11,11 @@
 // For example, you could export everything from './api' here and then import from './services' in your components.
 // This is especially useful as your app grows and you add more service modules (e.g., auth, notifications, etc.).
 
-export { 
-    fetchPlants,
-    addPlant,
-    updatePlantById,
-    updatePlantByName 
+export {
+  fetchPlants,
+  addPlant,
+  updatePlantById,
+  updatePlantByName,
+  deletePlantById,
+  deletePlantByName,
 } from './api';
