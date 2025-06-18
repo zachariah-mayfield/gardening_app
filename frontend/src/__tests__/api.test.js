@@ -3,7 +3,6 @@ import {
   fetchPlants,
   addPlant,
   updatePlantById,
-  updatePlantByName,
   deletePlantById,
   deletePlantByName,
 } from '../services/api';

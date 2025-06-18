@@ -1,77 +1,83 @@
-name: CI/CD
+name: CI/CD Pipeline
 
 on:
   push:
     branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
 
     services:
       postgres:
         image: postgres:13
         env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: password
-          POSTGRES_DB: postgres
-        ports:
-          - 5432:5432
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: testdb
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+        ports:
+          - 5432:5432
 
     steps:
-      - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.11'
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
 
-      - name: Install backend dependencies
-        run: |
-          cd backend
-          pip install -r requirements.txt
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: frontend/package-lock.json
 
-      - name: Set DATABASE_URL for CI
-        run: echo "DATABASE_URL=postgresql://postgres:password@localhost:5432/postgres" >> $GITHUB_ENV
+    - name: Install Python dependencies
+      run: |
+        cd backend
+        pip install -r requirements.txt
+        pip install flake8 mypy pytest httpx
 
-      - name: Run backend tests
-        run: |
-          cd backend
-          PYTHONPATH=$(pwd) pytest app
+    - name: Install Node.js dependencies
+      run: |
+        cd frontend
+        npm ci
 
-      - name: Run frontend tests
-        run: |
-          cd frontend
-          npm install
-          npm test -- --watchAll=false
+    - name: Run backend tests
+      env:
+        DATABASE_URL: postgresql://postgres:postgres@localhost:5432/testdb
+      run: |
+        cd backend/app
+        python -m pytest __tests__/ -v
 
-      - name: Run frontend build
-        run: |
-          cd frontend
-          npm install
-          npm run build
+    - name: Run frontend tests
+      run: |
+        cd frontend
+        npm test -- --watchAll=false
 
-      - name: Lint frontend
-        run: |
-          cd frontend
-          npm run lint
+    - name: Lint frontend
+      run: |
+        cd frontend
+        npm run lint
 
-      - name: Format frontend
-        run: |
-          cd frontend
-          npm run format
+    - name: Format frontend
+      run: |
+        cd frontend
+        npm run format
 
-      - name: Lint backend
-        run: |
-          cd backend/app
-          flake8 .
+    - name: Lint backend
+      run: |
+        cd backend/app
+        flake8 .
 
-      - name: Type check backend
-        run: |
-          cd backend/app
-          mypy .
+    - name: Type check backend
+      run: |
+        cd backend/app
+        mypy .
