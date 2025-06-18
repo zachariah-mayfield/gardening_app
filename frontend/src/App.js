@@ -1,9 +1,5 @@
 // Z:\Main\github-repos\gardening_app\frontend\src\App.js
 
-
-
-
-
 // ...existing code...
 
 import React, { useState, useEffect } from 'react';
@@ -42,7 +38,7 @@ const App = () => {
     setIsLoading(true); // Show loading indicator
     try {
       const fetchedPlants = await fetchPlants(); // Fetch plants from backend
-      console.log("Fetched plants from database:", fetchedPlants);
+      console.log('Fetched plants from database:', fetchedPlants);
       // Update plants state with fetched data
       setPlants(fetchedPlants);
       setError(null); // Clear any previous errors
