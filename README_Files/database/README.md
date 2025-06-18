@@ -33,3 +33,4 @@ Click “Save.”
 Expand your new server > Databases > postgres (or your DB name) > Schemas > public > Tables.
 You should see the plants table.
 Right-click plants > “View/Edit Data” > “All Rows” to see your plant data.
+
