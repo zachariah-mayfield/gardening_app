@@ -36,6 +36,9 @@ jobs:
           cd backend
           pip install -r requirements.txt
 
+      - name: Set DATABASE_URL for CI
+        run: echo "DATABASE_URL=postgresql://postgres:password@localhost:5432/postgres" >> $GITHUB_ENV
+
       - name: Run backend tests
         run: |
           cd backend
