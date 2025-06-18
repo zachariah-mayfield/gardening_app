@@ -73,27 +73,20 @@ describe('App Component Tests', () => {
     // Test successful plant update
     test('updates plant successfully', async () => {
         render(<App />);
-        
         await waitFor(() => {
             expect(screen.getByText('Rose')).toBeInTheDocument();
         });
-        
-        // Enter edit mode
         fireEvent.click(screen.getAllByText('Edit')[0]);
-        
-        // Update plant name
         fireEvent.change(screen.getByDisplayValue('Rose'), {
             target: { value: 'Updated Rose' }
         });
-        
-        // Submit update
         fireEvent.click(screen.getByText('Update Plant'));
-        
         // Verify update
         await waitFor(() => {
             expect(api.updatePlantById).toHaveBeenCalled();
-            expect(screen.getByText('Plant updated successfully!')).toBeInTheDocument();
         });
+        // Wait for success message
+        expect(await screen.findByText('Plant updated successfully!')).toBeInTheDocument();
     });
 
     test('deletes plant by ID when delete button is clicked', async () => {
@@ -131,7 +124,8 @@ describe('App Component Tests', () => {
         fireEvent.change(screen.getByLabelText('Plant Name:'), { target: { value: 'Rose' } });
         fireEvent.change(screen.getByLabelText('Description:'), { target: { value: 'Duplicate' } });
         fireEvent.click(screen.getByText('Add Plant'));
-        await waitFor(() => expect(screen.getByText(/failed to add plant/i)).toBeInTheDocument());
+        // Wait for error message
+        expect(await screen.findByText(/failed to add plant/i)).toBeInTheDocument();
     });
 
     test('shows error for empty fields when adding', async () => {

@@ -29,6 +29,7 @@ const App = () => {
   const [error, setError] = useState(null); // Error message state
   const [selectedPlant, setSelectedPlant] = useState(null); // Plant being edited
   const [isLoading, setIsLoading] = useState(false); // Loading state
+  const [success, setSuccess] = useState(null); // Success message state
 
   /**
    * Fetches plants from the PostgreSQL database via FastAPI
@@ -45,10 +46,12 @@ const App = () => {
       // Update plants state with fetched data
       setPlants(fetchedPlants);
       setError(null); // Clear any previous errors
+      setSuccess(null); // Clear success on successful load
     } catch (error) {
       // If an error occurs, display a user-friendly message
       console.error('Database or API error:', error);
       setError('Failed to load plants. Please try again later.');
+      setSuccess(null); // Clear success on error
     } finally {
       setIsLoading(false); // Hide loading indicator
     }
@@ -71,11 +74,13 @@ const App = () => {
   const handleAddPlant = async (newPlant) => {
     try {
       setError(null);
-      // Add plant and refresh the plant list
+      setSuccess(null);
       await loadPlants();
+      setSuccess('Plant added successfully!');
     } catch (error) {
       console.error('Error adding plant:', error);
       setError('Failed to add plant. Please try again.');
+      setSuccess(null);
     }
   };
 
@@ -90,13 +95,14 @@ const App = () => {
   const handleUpdatePlant = async (updatedPlant) => {
     try {
       setError(null);
-      // Refresh plant list to get updated data
+      setSuccess(null);
       await loadPlants();
-      // Clear selection after successful update
       setSelectedPlant(null);
+      setSuccess('Plant updated successfully!');
     } catch (error) {
       console.error('Error updating plant:', error);
       setError('Failed to update plant. Please try again.');
+      setSuccess(null);
     }
   };
 
@@ -109,6 +115,7 @@ const App = () => {
   const handleEditClick = (plant) => {
     setSelectedPlant(plant);
     setError(null);
+    setSuccess(null);
   };
 
   /**
@@ -119,6 +126,7 @@ const App = () => {
   const handleCancelEdit = () => {
     setSelectedPlant(null);
     setError(null);
+    setSuccess(null);
   };
 
   /**
@@ -131,6 +139,7 @@ const App = () => {
   const handleDeletePlant = async (plant) => {
     try {
       setError(null);
+      setSuccess(null);
       setIsLoading(true);
       if (plant.id) {
         await deletePlantById(plant.id);
@@ -138,8 +147,10 @@ const App = () => {
         await deletePlantByName(plant.name);
       }
       await loadPlants(); // refresh list
+      setSuccess('Plant deleted successfully!');
     } catch (error) {
       setError('Failed to delete plant. Please try again.');
+      setSuccess(null);
     } finally {
       setIsLoading(false);
     }
@@ -154,6 +165,13 @@ const App = () => {
       {error && (
         <p className="error-message" role="alert">
           {error}
+        </p>
+      )}
+
+      {/* Success Display: shows success messages to the user if any */}
+      {success && (
+        <p className="success-message" role="status">
+          {success}
         </p>
       )}
 
@@ -176,7 +194,7 @@ const App = () => {
         ) : (
           <ul>
             {plants.map((plant) => (
-              <li key={plant.id} className="plant-item">
+              <li key={plant.id || plant.name} className="plant-item">
                 <div>
                   <strong>{plant.name}</strong>: {plant.description}
                 </div>

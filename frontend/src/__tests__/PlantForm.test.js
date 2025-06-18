@@ -188,7 +188,9 @@ describe('PlantForm Component Tests', () => {
         fireEvent.change(screen.getByLabelText('Description:'), { target: { value: 'Desc' } });
         // Simulate loading
         fireEvent.click(screen.getByRole('button', { name: /add plant/i }));
-        expect(screen.getByRole('button', { name: /add plant/i })).toBeDisabled();
+        // Wait for the button to change to 'Saving...' and be disabled
+        const savingButton = await screen.findByRole('button', { name: /saving.../i });
+        expect(savingButton).toBeDisabled();
     });
 
     // Edge case: cancel resets form
