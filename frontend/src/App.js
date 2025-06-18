@@ -156,7 +156,7 @@ const App = () => {
   return (
     <div className="app-container">
       <h1>Plant Tracker</h1>
-      
+
       {/* Error Display: shows error messages to the user if any */}
       {error && (
         <p className="error-message" role="alert">
@@ -175,7 +175,7 @@ const App = () => {
       {isLoading && <p>Loading plants...</p>}
 
       {/* Plant Form - handles both adding and editing */}
-      <PlantForm 
+      <PlantForm
         onAddPlant={handleAddPlant}
         onUpdatePlant={handleUpdatePlant}
         plantToEdit={selectedPlant}
@@ -195,7 +195,7 @@ const App = () => {
                   <strong>{plant.name}</strong>: {plant.description}
                 </div>
                 {/* Edit button: allows user to edit this plant */}
-                <button 
+                <button
                   onClick={() => handleEditClick(plant)}
                   disabled={isLoading}
                 >

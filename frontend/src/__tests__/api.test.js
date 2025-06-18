@@ -1,132 +1,139 @@
 // Import API functions to test
-import { fetchPlants, addPlant, updatePlantById, updatePlantByName, deletePlantById, deletePlantByName } from '../services/api';
+import {
+  fetchPlants,
+  addPlant,
+  updatePlantById,
+  updatePlantByName,
+  deletePlantById,
+  deletePlantByName,
+} from '../services/api';
 
 // Mock the global fetch function
 // All fetch mocks must provide a text() method for fetchPlants
 const mockFetchResponse = (data, ok = true, status = 200) => ({
-    ok,
-    status,
-    text: () => Promise.resolve(JSON.stringify(data)),
-    json: () => Promise.resolve(data),
+  ok,
+  status,
+  text: () => Promise.resolve(JSON.stringify(data)),
+  json: () => Promise.resolve(data),
 });
 
 global.fetch = jest.fn();
 
 // Group all API-related tests
 describe('API Service Tests', () => {
-    // Reset mocks before each test
-    beforeEach(() => {
-        fetch.mockClear();
-        // Mock successful response
-        fetch.mockImplementation(() => 
-            Promise.resolve(mockFetchResponse([]))
-        );
-    });
+  // Reset mocks before each test
+  beforeEach(() => {
+    fetch.mockClear();
+    // Mock successful response
+    fetch.mockImplementation(() => Promise.resolve(mockFetchResponse([])));
+  });
 
-    // Test GET plants endpoint
-    test('fetchPlants calls correct endpoint with GET method', async () => {
-        await fetchPlants();
-        
-        expect(fetch).toHaveBeenCalledWith(
-            'http://localhost:8000/api/v1/plants',
-            expect.objectContaining({
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-        );
-    });
+  // Test GET plants endpoint
+  test('fetchPlants calls correct endpoint with GET method', async () => {
+    await fetchPlants();
 
-    // Test POST new plant endpoint
-    test('addPlant sends correct data with POST method', async () => {
-        const newPlant = {
-            name: 'Test Plant',
-            description: 'Test Description'
-        };
+    expect(fetch).toHaveBeenCalledWith(
+      'http://localhost:8000/api/v1/plants',
+      expect.objectContaining({
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }),
+    );
+  });
 
-        await addPlant(newPlant);
+  // Test POST new plant endpoint
+  test('addPlant sends correct data with POST method', async () => {
+    const newPlant = {
+      name: 'Test Plant',
+      description: 'Test Description',
+    };
 
-        expect(fetch).toHaveBeenCalledWith(
-            'http://localhost:8000/api/v1/plants',
-            expect.objectContaining({
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(newPlant)
-            })
-        );
-    });
+    await addPlant(newPlant);
 
-    // Test PUT update plant by ID endpoint
-    test('updatePlantById sends correct data to correct endpoint', async () => {
-        const plantId = 1;
-        const updatedPlant = {
-            name: 'Updated Plant',
-            description: 'Updated Description'
-        };
+    expect(fetch).toHaveBeenCalledWith(
+      'http://localhost:8000/api/v1/plants',
+      expect.objectContaining({
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newPlant),
+      }),
+    );
+  });
 
-        await updatePlantById(plantId, updatedPlant);
+  // Test PUT update plant by ID endpoint
+  test('updatePlantById sends correct data to correct endpoint', async () => {
+    const plantId = 1;
+    const updatedPlant = {
+      name: 'Updated Plant',
+      description: 'Updated Description',
+    };
 
-        expect(fetch).toHaveBeenCalledWith(
-            `http://localhost:8000/api/v1/plants/id/${plantId}`,
-            expect.objectContaining({
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(updatedPlant)
-            })
-        );
-    });
+    await updatePlantById(plantId, updatedPlant);
 
-    // Test error handling
-    test('handles API errors correctly', async () => {
-        // Mock a failed API call
-        fetch.mockImplementationOnce(() => 
-            Promise.resolve(mockFetchResponse({}, false, 404))
-        );
+    expect(fetch).toHaveBeenCalledWith(
+      `http://localhost:8000/api/v1/plants/id/${plantId}`,
+      expect.objectContaining({
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updatedPlant),
+      }),
+    );
+  });
 
-        // Expect the API call to throw an error
-        await expect(fetchPlants()).rejects.toThrow('HTTP error! status: 404');
-    });
+  // Test error handling
+  test('handles API errors correctly', async () => {
+    // Mock a failed API call
+    fetch.mockImplementationOnce(() =>
+      Promise.resolve(mockFetchResponse({}, false, 404)),
+    );
 
-    // Test network errors
-    test('handles network errors correctly', async () => {
-        // Mock a network failure
-        fetch.mockImplementationOnce(() => 
-            Promise.reject(new Error('Network error'))
-        );
+    // Expect the API call to throw an error
+    await expect(fetchPlants()).rejects.toThrow('HTTP error! status: 404');
+  });
 
-        await expect(fetchPlants()).rejects.toThrow('Network error');
-    });
+  // Test network errors
+  test('handles network errors correctly', async () => {
+    // Mock a network failure
+    fetch.mockImplementationOnce(() =>
+      Promise.reject(new Error('Network error')),
+    );
 
-    test('deletePlantById calls correct endpoint with DELETE method', async () => {
-        fetch.mockResolvedValueOnce(mockFetchResponse({}, true));
-        await deletePlantById(42);
-        expect(fetch).toHaveBeenCalledWith(
-            'http://localhost:8000/api/v1/plants/id/42',
-            expect.objectContaining({ method: 'DELETE' })
-        );
-    });
+    await expect(fetchPlants()).rejects.toThrow('Network error');
+  });
 
-    test('deletePlantByName calls correct endpoint with DELETE method', async () => {
-        fetch.mockResolvedValueOnce(mockFetchResponse({}, true));
-        await deletePlantByName('Rose');
-        expect(fetch).toHaveBeenCalledWith(
-            'http://localhost:8000/api/v1/plants/name/Rose',
-            expect.objectContaining({ method: 'DELETE' })
-        );
-    });
+  test('deletePlantById calls correct endpoint with DELETE method', async () => {
+    fetch.mockResolvedValueOnce(mockFetchResponse({}, true));
+    await deletePlantById(42);
+    expect(fetch).toHaveBeenCalledWith(
+      'http://localhost:8000/api/v1/plants/id/42',
+      expect.objectContaining({ method: 'DELETE' }),
+    );
+  });
 
-    test('deletePlantById throws error on failure', async () => {
-        fetch.mockResolvedValueOnce(mockFetchResponse({}, false));
-        await expect(deletePlantById(42)).rejects.toThrow('Failed to delete plant');
-    });
+  test('deletePlantByName calls correct endpoint with DELETE method', async () => {
+    fetch.mockResolvedValueOnce(mockFetchResponse({}, true));
+    await deletePlantByName('Rose');
+    expect(fetch).toHaveBeenCalledWith(
+      'http://localhost:8000/api/v1/plants/name/Rose',
+      expect.objectContaining({ method: 'DELETE' }),
+    );
+  });
 
-    test('deletePlantByName throws error on failure', async () => {
-        fetch.mockResolvedValueOnce(mockFetchResponse({}, false));
-        await expect(deletePlantByName('Rose')).rejects.toThrow('Failed to delete plant');
-    });
+  test('deletePlantById throws error on failure', async () => {
+    fetch.mockResolvedValueOnce(mockFetchResponse({}, false));
+    await expect(deletePlantById(42)).rejects.toThrow('Failed to delete plant');
+  });
+
+  test('deletePlantByName throws error on failure', async () => {
+    fetch.mockResolvedValueOnce(mockFetchResponse({}, false));
+    await expect(deletePlantByName('Rose')).rejects.toThrow(
+      'Failed to delete plant',
+    );
+  });
 });
