@@ -55,3 +55,23 @@ jobs:
           cd frontend
           npm install
           npm run build
+
+      - name: Lint frontend
+        run: |
+          cd frontend
+          npm run lint
+
+      - name: Format frontend
+        run: |
+          cd frontend
+          npm run format
+
+      - name: Lint backend
+        run: |
+          cd backend/app
+          flake8 .
+
+      - name: Type check backend
+        run: |
+          cd backend/app
+          mypy .

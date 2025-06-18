@@ -353,3 +353,38 @@ gardening_app/
   scripts/          # Build/deployment scripts
   .github/          # CI/CD workflows
   .env.example      # Environment template
+```
+
+## 🧹 Linting & Formatting
+
+### Frontend (React)
+- **Lint:**
+  ```sh
+  cd frontend
+  npm run lint
+  ```
+- **Format:**
+  ```sh
+  cd frontend
+  npm run format
+  ```
+
+### Backend (Python)
+- **Lint:**
+  ```sh
+  cd backend/app
+  flake8 .
+  ```
+- **Type Check:**
+  ```sh
+  cd backend/app
+  mypy .
+  ```
+
+## 🧪 Type Checking
+- **Frontend:** (JS/React) - Use ESLint for code quality.
+- **Backend:** (Python) - Use mypy for static type checking.
+
+## 🚦 CI/CD Workflow
+- All pushes to `main` run tests, linting, formatting, and type checks automatically via GitHub Actions.
+- See `.github/workflows/ci-cd.yml` for details.
