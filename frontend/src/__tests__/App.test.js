@@ -97,7 +97,8 @@ describe('App Component Tests', () => {
   });
 
   test('deletes plant by ID when delete button is clicked', async () => {
-    api.deletePlantById = jest.fn().mockResolvedValue();
+    // Use jest.spyOn instead of reassigning api.deletePlantById
+    jest.spyOn(api, 'deletePlantById').mockResolvedValue();
     render(<App />);
     await waitFor(() => expect(screen.getByText('Rose')).toBeInTheDocument());
     fireEvent.click(screen.getAllByText('Delete')[0]);
@@ -108,7 +109,8 @@ describe('App Component Tests', () => {
     api.fetchPlants.mockResolvedValueOnce([
       { name: 'Nameless Plant', description: 'No ID' },
     ]);
-    api.deletePlantByName = jest.fn().mockResolvedValue();
+    // Use jest.spyOn instead of reassigning api.deletePlantByName
+    jest.spyOn(api, 'deletePlantByName').mockResolvedValue();
     render(<App />);
     await waitFor(() =>
       expect(screen.getByText('Nameless Plant')).toBeInTheDocument(),

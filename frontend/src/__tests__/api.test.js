@@ -1,3 +1,4 @@
+/* global global */
 // Import API functions to test
 import {
   fetchPlants,
