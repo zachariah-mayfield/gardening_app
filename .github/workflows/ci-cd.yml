@@ -55,8 +55,8 @@ jobs:
         DATABASE_URL: postgresql://postgres:postgres@localhost:5432/testdb
         PYTHONPATH: ${{ github.workspace }}/backend
       run: |
-        cd backend/app
-        python -m pytest __tests__/ -v
+        cd backend
+        python -m pytest app/__tests__/ -v
 
     - name: Run frontend tests
       run: |
