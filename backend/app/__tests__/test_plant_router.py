@@ -1,5 +1,5 @@
 from fastapi.testclient import TestClient
-from app.main import app
+from ..main import app
 
 # This file contains tests for the plant API endpoints using FastAPI's TestClient.
 # Each test function simulates a client making requests to the API and checks the responses.

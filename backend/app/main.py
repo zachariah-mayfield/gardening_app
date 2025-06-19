@@ -2,7 +2,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from .routers.plant_router import router as plant_router
+from .routers.plant_router import router as plant_router, PlantSchema
 from . import models
 from . import database
 from .database import engine
@@ -30,20 +30,6 @@ def get_db():
         yield db
     finally:
         db.close()
-
-
-class Plant(BaseModel):
-    name: str
-    description: str
-    id: int
-
-    class Config:
-        orm_mode = True
-
-
-class PlantCreate(BaseModel):
-    name: str
-    description: str
 
 
 app.include_router(
