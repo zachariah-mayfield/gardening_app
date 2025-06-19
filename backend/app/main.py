@@ -1,8 +1,7 @@
 # Z:\Main\github-repos\gardening_app\backend\app\main.py
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
-from .routers.plant_router import router as plant_router, PlantSchema
+from .routers.plant_router import router as plant_router
 from . import models
 from . import database
 from .database import engine
