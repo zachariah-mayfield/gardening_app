@@ -1,4 +1,4 @@
-// Z:\Main\github-repos\gardening_app\frontend\src\PlantForm.js
+// gardening_app\frontend\src\PlantForm.js
 import React, { useState, useEffect } from 'react';
 // Import both add and update functions from api.js
 import { addPlant, updatePlantById, updatePlantByName } from '../services/api';
@@ -35,7 +35,7 @@ const PlantForm = ({ onAddPlant, onUpdatePlant, plantToEdit, onCancel }) => {
     if (plantToEdit) {
       setName(plantToEdit.name);
       setDescription(plantToEdit.description);
-      setWateringSchedule(plantToEdit.wateringSchedule || '');
+      setWateringSchedule(plantToEdit.wateringSchedule || plantToEdit.watering_schedule || '');
     }
   }, [plantToEdit]);
 
@@ -181,7 +181,7 @@ const PlantForm = ({ onAddPlant, onUpdatePlant, plantToEdit, onCancel }) => {
 
           {/* Show cancel button only in edit mode */}
           {plantToEdit && (
-            <button type="button" onClick={onCancel} disabled={isLoading}>
+            <button type="button" className="cancel-btn" onClick={onCancel} disabled={isLoading}>
               Cancel
             </button>
           )}

@@ -191,6 +191,24 @@ body {
   color: #fff !important;
 }
 
+.plant-form button.cancel-btn {
+  background: #fff !important;
+  color: #1976d2 !important;
+  font-weight: 700;
+  border: 1.5px solid #1976d2;
+  border-radius: 6px;
+  padding: 0.5em 1.2em;
+  font-size: 1rem;
+  margin-left: 0.7em;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border 0.2s;
+}
+.plant-form button.cancel-btn:hover {
+  background: #e3f2fd !important;
+  color: #0d47a1 !important;
+  border-color: #0d47a1;
+}
+
 input, textarea {
   background: #23272f !important;
   color: #fff !important;

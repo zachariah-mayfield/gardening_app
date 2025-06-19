@@ -205,7 +205,7 @@ const App = () => {
                   <div className="plant-card">
                     <div className="plant-info">
                       <div className="plant-name">🌿 <strong>{plant.name}</strong></div>
-                      <div className="plant-desc">{plant.description}</div>
+                      <div className="plant-desc">📰 {plant.description}</div>
                       <div className="plant-watering">💧 <strong>Watering Schedule:</strong> {plant.watering_schedule}</div>
                     </div>
                     <div className="plant-actions">

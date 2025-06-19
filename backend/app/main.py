@@ -11,8 +11,8 @@ from datetime import datetime
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
-    title="Gardening App API",
-    description="API for managing garden plants",
+    title="Plant Tracker Gardening App API",
+    description="Plant Tracker API for managing garden plants",
     version="1.0.0",
 )
 
@@ -88,9 +88,9 @@ def root():
     </head>
     <body>
         <div class='container'>
-            <h1>🌱 Gardening App API</h1>
-            <p>Welcome to the Gardening App backend.</p>
-            <p>See the <a href='/docs'>interactive API docs</a> or <a href='/redoc'>ReDoc</a>.</p>
+            <h1>🌱 Plant Tracker Gardening App API</h1>
+            <p>Welcome to the Plant Tracker Gardening App backend.</p>
+            <p>See the <a href='/docs'>Plant Tracker Gardening App API Documentation</a> or <a href='/redoc'>ReDoc - Plant Tracker Gardening App API Reference Documentation</a>.</p>
             <div class='footer'>Happy Gardening! &copy; {datetime.now().year}</div>
         </div>
     </body>
