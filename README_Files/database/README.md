@@ -12,8 +12,8 @@ docker-compose up -d --build
 ## Access pgAdmin
 - Open http://localhost:5050 in your browser.
 - The default login is often:
-- Email: admin@admin.com
-- Password: admin
+- Email: admin@example.com
+- Password: admin123
 - (Check your docker-compose.yml for the actual credentials.)
 
 
