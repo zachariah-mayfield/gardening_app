@@ -99,7 +99,9 @@ describe('PlantForm Component Tests', () => {
     fireEvent.change(screen.getByLabelText('Description:'), {
       target: { value: 'New Description' },
     });
-
+    fireEvent.change(screen.getByLabelText('Watering Schedule:'), {
+      target: { value: 'Every day' },
+    });
     // Submit form
     fireEvent.click(screen.getByRole('button', { name: /add plant/i }));
 
@@ -108,10 +110,12 @@ describe('PlantForm Component Tests', () => {
       expect(api.addPlant).toHaveBeenCalledWith({
         name: 'New Plant',
         description: 'New Description',
+        watering_schedule: 'Every day',
       });
       expect(mockOnAddPlant).toHaveBeenCalled();
       expect(screen.getByLabelText('Plant Name:')).toHaveValue('');
       expect(screen.getByLabelText('Description:')).toHaveValue('');
+      expect(screen.getByLabelText('Watering Schedule:')).toHaveValue('');
     });
   });
 
@@ -138,7 +142,9 @@ describe('PlantForm Component Tests', () => {
     fireEvent.change(screen.getByLabelText('Description:'), {
       target: { value: 'Updated Description' },
     });
-
+    fireEvent.change(screen.getByLabelText('Watering Schedule:'), {
+      target: { value: 'Every day' },
+    });
     // Submit update
     fireEvent.click(screen.getByRole('button', { name: /update plant/i }));
 
@@ -147,6 +153,7 @@ describe('PlantForm Component Tests', () => {
       expect(api.updatePlantById).toHaveBeenCalledWith(1, {
         name: 'Updated Plant',
         description: 'Updated Description',
+        watering_schedule: 'Every day',
       });
       expect(mockOnUpdatePlant).toHaveBeenCalled();
     });
@@ -201,11 +208,15 @@ describe('PlantForm Component Tests', () => {
     fireEvent.change(screen.getByLabelText('Description:'), {
       target: { value: longDesc },
     });
+    fireEvent.change(screen.getByLabelText('Watering Schedule:'), {
+      target: { value: 'Every day' },
+    });
     fireEvent.click(screen.getByRole('button', { name: /add plant/i }));
     await waitFor(() => {
       expect(api.addPlant).toHaveBeenCalledWith({
         name: longName,
         description: longDesc,
+        watering_schedule: 'Every day',
       });
     });
   });
@@ -229,6 +240,9 @@ describe('PlantForm Component Tests', () => {
     });
     fireEvent.change(screen.getByLabelText('Description:'), {
       target: { value: 'Desc' },
+    });
+    fireEvent.change(screen.getByLabelText('Watering Schedule:'), {
+      target: { value: 'Every day' },
     });
     fireEvent.click(screen.getByRole('button', { name: /add plant/i }));
     // The button should be disabled and show 'Saving...' while loading
@@ -265,6 +279,9 @@ describe('PlantForm Component Tests', () => {
     });
     fireEvent.change(screen.getByLabelText('Description:'), {
       target: { value: 'Desc' },
+    });
+    fireEvent.change(screen.getByLabelText('Watering Schedule:'), {
+      target: { value: 'Every day' },
     });
     fireEvent.click(screen.getByRole('button', { name: /add plant/i }));
     expect(await screen.findByText(/network error/i)).toBeInTheDocument();

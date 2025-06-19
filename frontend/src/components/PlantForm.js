@@ -104,6 +104,8 @@ const PlantForm = ({ onAddPlant, onUpdatePlant, plantToEdit, onCancel }) => {
         setError(
           'A plant with this name already exists. Please choose a different name.',
         );
+      } else if (error.message.toLowerCase().includes('network')) {
+        setError('Network error');
       } else {
         setError(error.message || 'An error occurred while saving the plant.');
       }

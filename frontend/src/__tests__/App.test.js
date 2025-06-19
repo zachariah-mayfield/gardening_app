@@ -85,10 +85,17 @@ describe('App Component Tests', () => {
     fireEvent.change(screen.getByDisplayValue('Rose'), {
       target: { value: 'Updated Rose' },
     });
+    fireEvent.change(screen.getByLabelText('Watering Schedule:'), {
+      target: { value: 'Every day' },
+    });
     fireEvent.click(screen.getByText('Update Plant'));
     // Verify update
     await waitFor(() => {
-      expect(api.updatePlantById).toHaveBeenCalled();
+      expect(api.updatePlantById).toHaveBeenCalledWith(1, {
+        name: 'Updated Rose',
+        description: 'A beautiful flower',
+        watering_schedule: 'Every day',
+      });
     });
     // Wait for success message
     expect(
@@ -130,11 +137,15 @@ describe('App Component Tests', () => {
     fireEvent.change(screen.getByLabelText('Description:'), {
       target: { value: 'Herb' },
     });
+    fireEvent.change(screen.getByLabelText('Watering Schedule:'), {
+      target: { value: 'Every day' },
+    });
     fireEvent.click(screen.getByText('Add Plant'));
     await waitFor(() =>
       expect(api.addPlant).toHaveBeenCalledWith({
         name: 'Basil',
         description: 'Herb',
+        watering_schedule: 'Every day',
       }),
     );
   });
@@ -149,6 +160,9 @@ describe('App Component Tests', () => {
     fireEvent.change(screen.getByLabelText('Description:'), {
       target: { value: 'Duplicate' },
     });
+    fireEvent.change(screen.getByLabelText('Watering Schedule:'), {
+      target: { value: 'Every day' },
+    });
     fireEvent.click(screen.getByText('Add Plant'));
     // Wait for error message
     expect(await screen.findByText(/failed to add plant/i)).toBeInTheDocument();
@@ -160,6 +174,9 @@ describe('App Component Tests', () => {
       target: { value: '' },
     });
     fireEvent.change(screen.getByLabelText('Description:'), {
+      target: { value: '' },
+    });
+    fireEvent.change(screen.getByLabelText('Watering Schedule:'), {
       target: { value: '' },
     });
     fireEvent.click(screen.getByText('Add Plant'));
@@ -179,6 +196,9 @@ describe('App Component Tests', () => {
     fireEvent.click(screen.getAllByText('Edit')[0]);
     fireEvent.change(screen.getByDisplayValue('Rose'), {
       target: { value: 'Ghost Plant' },
+    });
+    fireEvent.change(screen.getByLabelText('Watering Schedule:'), {
+      target: { value: 'Every day' },
     });
     fireEvent.click(screen.getByText('Update Plant'));
     await waitFor(() =>
