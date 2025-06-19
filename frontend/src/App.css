@@ -18,11 +18,12 @@ body {
 .app-container {
   max-width: 700px;
   margin: 0 auto;
-  padding: 2rem 1rem 1rem 1rem;
-  background: rgba(255,255,255,0.95);
+  padding: 2rem 2.5rem 1rem 2.5rem;
+  background: #23272f !important;
   border-radius: 18px;
   box-shadow: 0 4px 24px rgba(60, 120, 60, 0.08);
   min-height: 90vh;
+  color: #fff !important;
 }
 
 .hero {
@@ -31,8 +32,8 @@ body {
 }
 
 .plant-logo {
-  width: 80px;
-  height: 80px;
+  width: 24px;
+  height: 24px;
   margin-bottom: 0.5rem;
   filter: drop-shadow(0 2px 8px #a5d6a7);
 }
@@ -52,7 +53,7 @@ body {
 
 .form-section {
   margin-bottom: 2rem;
-  background: #f1f8e9;
+  background: #2c313a !important;
   border-radius: 12px;
   padding: 1.5rem 1rem;
   box-shadow: 0 2px 8px rgba(56, 142, 60, 0.06);
@@ -69,6 +70,7 @@ body {
 }
 
 .plant-item {
+  display: block;
   margin-bottom: 1.2rem;
 }
 
@@ -76,11 +78,12 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #e8f5e9;
+  background: #2c313a !important;
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(56, 142, 60, 0.07);
-  padding: 1rem 1.2rem;
+  padding: 1.2rem 1.5rem;
   transition: box-shadow 0.2s;
+  color: #fff !important;
 }
 .plant-card:hover {
   box-shadow: 0 4px 16px rgba(56, 142, 60, 0.13);
@@ -94,11 +97,12 @@ body {
   color: #388e3c;
   font-size: 1.1rem;
   font-weight: 600;
+  margin-bottom: 0.4em;
 }
 .plant-desc {
   color: #4e944f;
   font-size: 0.98rem;
-  margin-top: 0.2em;
+  margin-top: 0.4em;
 }
 
 .plant-actions {
@@ -114,19 +118,22 @@ body {
   transition: background 0.2s, color 0.2s;
 }
 .edit-btn {
-  background: #a5d6a7;
-  color: #1b5e20;
+  background: #43a047 !important;
+  color: #fff !important;
+  font-weight: 600;
 }
 .edit-btn:hover {
-  background: #81c784;
+  background: #388e3c !important;
+  color: #fff !important;
 }
 .delete-btn {
-  background: #ffcdd2;
-  color: #b71c1c;
+  background: #e53935 !important;
+  color: #fff !important;
+  font-weight: 600;
 }
 .delete-btn:hover {
-  background: #e57373;
-  color: #fff;
+  background: #b71c1c !important;
+  color: #fff !important;
 }
 
 .error-message {
@@ -152,4 +159,24 @@ body {
   margin-top: 2rem;
   font-size: 1.1rem;
   padding-bottom: 0.5rem;
+}
+
+.hero-title, .hero-subtitle, .footer, .plant-name, .plant-desc, .error-message, .success-message, .edit-btn, .delete-btn, label, input, textarea, h2 {
+  color: #fff !important;
+}
+
+.plant-form button[type="submit"] {
+  background: #1976d2 !important; /* bold blue */
+  color: #fff !important;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  padding: 0.5em 1.2em;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.plant-form button[type="submit"]:hover {
+  background: #0d47a1 !important;
+  color: #fff !important;
 }

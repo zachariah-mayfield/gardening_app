@@ -1,6 +1,6 @@
-// Z:\Main\github-repos\gardening_app\frontend\src\App.js
+// gardening_app\frontend\src\App.js
 
-// ...existing code...
+import './App.css';
 
 import React, { useState, useEffect } from 'react';
 // Import all necessary API functions
@@ -158,7 +158,7 @@ const App = () => {
     <div className="app-container">
       {/* Hero Section */}
       <header className="hero">
-        <img src={plantLogo} alt="Plant Logo" className="plant-logo" />
+        <img src={plantLogo} alt="Plant Logo" className="plant-logo" style={{ width: 24, height: 24 }} />
         <h1 className="hero-title">Welcome to Plant Tracker 🌱</h1>
         <p className="hero-subtitle">
           Organize your garden, track your plants, and grow your green thumb!
@@ -204,8 +204,8 @@ const App = () => {
                 <li key={plant.id || plant.name} className="plant-item">
                   <div className="plant-card">
                     <div className="plant-info">
-                      <span className="plant-name">🌿 <strong>{plant.name}</strong></span>
-                      <span className="plant-desc">{plant.description}</span>
+                      <div className="plant-name">🌿 <strong>{plant.name}</strong></div>
+                      <div className="plant-desc">{plant.description}</div>
                     </div>
                     <div className="plant-actions">
                       <button
