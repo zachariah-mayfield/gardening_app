@@ -1,9 +1,9 @@
 # Gardening App
 
 # Possible names for this web application:
-## Plant Tracker Social
-## Plant Tracker
-## Social Gardening
+- Plant Tracker Social
+- Plant Tracker
+- Social Gardening
 
 # A full-stack FastAPI-based React, and PostgreSQL web application for managing garden plants, maintenance schedules, and tracking plants, built with SQLAlchemy for database management, Docker for containerization, and pgAdmin for database management.
 
