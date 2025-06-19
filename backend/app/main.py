@@ -2,10 +2,10 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from app.routers.plant_router import router as plant_router
-from app import models
-from app import database
-from app.database import engine
+from .routers.plant_router import router as plant_router
+from . import models
+from . import database
+from .database import engine
 
 models.Base.metadata.create_all(bind=engine)
 
