@@ -1,390 +1,242 @@
-# A full-stack FastAPI-based React, and PostgreSQL web application for managing garden plants, maintenance schedules, and tracking plants, built with SQLAlchemy for database management, Docker for containerization, and pgAdmin for database management.
-
 # Gardening App
 
-## 🌱 Features
+# Possible names for this web application:
+## Plant Tracker Social
+## Plant Tracker
+## Social Gardening
 
-- Add plants to a database with a name and description.
-- View all plants stored in the database.
-- CORS support for frontend communication.
-- Database integration with PostgreSQL using SQLAlchemy.
+# A full-stack FastAPI-based React, and PostgreSQL web application for managing garden plants, maintenance schedules, and tracking plants, built with SQLAlchemy for database management, Docker for containerization, and pgAdmin for database management.
 
-- Plant catalog with care instructions
-- Maintenance scheduling and reminders
-- Weather integration
-- User authentication and profiles
-- Responsive design for mobile and desktop
+---
+
+## 🚀 Features
+
+- **Plant Management:** Add, view, update, and delete plants with name and description.
+- **RESTful API:** FastAPI backend with full CRUD endpoints.
+- **Database Integration:** PostgreSQL with SQLAlchemy 2.0 ORM.
+- **Frontend:** React app for interacting with the plant database.
+- **Testing:** Comprehensive backend (pytest) and frontend (Jest/React Testing Library) tests.
+- **Code Quality:** Linting (flake8, ESLint), formatting (black, Prettier), and type checking (mypy).
+- **CI/CD:** Automated testing, linting, and formatting via GitHub Actions.
+- **Containerization:** Docker and Docker Compose for easy setup.
+- **pgAdmin:** Web UI for managing your PostgreSQL database.
+- **Beginner-Friendly:** Extensive comments and documentation throughout the codebase.
+
+---
 
 ## 🛠️ Technology Stack
 
-### Frontend
-- React.js
-- Material-UI
-- Redux for state management
-- Axios for API calls
+- **Backend:** FastAPI, SQLAlchemy 2.0, Pydantic, PostgreSQL
+- **Frontend:** React, Jest, React Testing Library, ESLint, Prettier
+- **Database Management:** pgAdmin
+- **DevOps:** Docker, Docker Compose, GitHub Actions
 
-### Backend
-- Python/Django REST Framework
-- PostgreSQL database
-- JWT authentication
-- Celery for background tasks
+---
 
-### DevOps
-- Docker containerization
-- GitHub Actions CI/CD
-- Nginx reverse proxy
+## 📦 Project Structure
 
-## 🚀 Getting Started
+```
+gardening_app/
+├── backend/
+│   ├── app/                # FastAPI app (models, routers, tests, etc.)
+│   ├── requirements.txt    # Python dependencies
+│   └── Dockerfile
+├── frontend/
+│   ├── src/                # React app source code
+│   ├── package.json        # Frontend dependencies
+│   └── Dockerfile
+├── docker-compose.yml      # Multi-service orchestration
+├── README.md               # This file
+└── .github/workflows/      # CI/CD pipeline
+```
+
+---
+
+## 🖥️ Installation & Running
 
 ### Prerequisites
-- Docker and Docker Compose
-- Node.js 16+
-- Python 3.9+
 
-### Installation
+- [Docker](https://www.docker.com/get-started) and Docker Compose
+- [Node.js](https://nodejs.org/) (16+ recommended, for local frontend dev)
+- [Python 3.9+](https://www.python.org/) (for local backend dev)
 
-1. Clone the repository:
-```bash
-git clone https://github.com/zachariah-mayfield/gardening_app.git
-cd gardening_app
-```
+### Quick Start (Recommended: Docker Compose)
 
-2. Run the Setup script:
-```bash
-cd /z/Main/github-repos/gardening_app
-chmod +x setup/*.sh
-./setup/start.sh
-```
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/zachariah-mayfield/gardening_app.git
+   cd gardening_app
+   ```
 
-3. Start with Docker Compose:
-```bash
-docker-compose up -d --build
-```
+2. **Start all services (backend, frontend, db, pgAdmin):**
+   ```bash
+   docker-compose up -d --build
+   ```
 
-4. Access the application:
-- Frontend: http://localhost:3000
-- Backend API: http://localhost:8000
-- API Documentation: http://localhost:8000/docs/
-- pgAdmin: http://localhost:5050/browser/
+3. **Access the app:**
+   - Frontend: [http://localhost:3000](http://localhost:3000)
+   - Backend API: [http://localhost:8000](http://localhost:8000)
+   - API Docs: [http://localhost:8000/docs](http://localhost:8000/docs)
+   - pgAdmin: [http://localhost:5050](http://localhost:5050) (default: admin@admin.com / admin)
 
-## Technologies
+---
 
-- **Backend**: FastAPI
-- **Database**: PostgreSQL
-- **ORM**: SQLAlchemy
-- **Frontend**: React (To be added later)
-- **Database Management**: pgAdmin
+### Local Development (without Docker)
 
+#### Backend
 
-## 📝 Environment Variables
+1. **Install dependencies:**
+   ```bash
+   cd backend
+   python3 -m venv venv
+   source venv/bin/activate
+   pip install -r requirements.txt
+   ```
 
-Create a `.env` file in the root directory:
-```
-POSTGRES_DB=gardening_db
-POSTGRES_USER=your_user
-POSTGRES_PASSWORD=your_password
-DJANGO_SECRET_KEY=your_secret_key
-```
+2. **Set up environment variables (optional):**
+   - Create a `.env` file in `backend/` if you want to override the default database URL.
+
+3. **Run the backend:**
+   ```bash
+   uvicorn app.main:app --reload
+   ```
+
+#### Frontend
+
+1. **Install dependencies:**
+   ```bash
+   cd frontend
+   npm install
+   ```
+
+2. **Run the frontend:**
+   ```bash
+   npm start
+   ```
+
+---
 
 ## 🧪 Testing
 
-### Frontend Tests
-```bash
-cd frontend
-npm test
-```
+### Backend
 
-### Backend Tests
-```bash
-cd backend
-python manage.py test
-```
+- **Run all backend tests:**
+  ```bash
+  cd backend
+  source venv/bin/activate
+  pytest app/__tests__/
+  ```
 
-## 📦 Project Structure
-```
-gardening_app/
-├── frontend/          # React application
-├── backend/          # Django REST API
-├── docker/           # Docker configuration
-├── .github/          # GitHub Actions workflows
-└── docs/            # Additional documentation
-```
+- **Type checking:**
+  ```bash
+  mypy app/
+  ```
 
-## 🌐 API Endpoints
+- **Linting:**
+  ```bash
+  flake8 app/
+  ```
 
-### Authentication
-- `POST /api/auth/login/` - User login
-- `POST /api/auth/register/` - User registration
-- `POST /api/auth/refresh/` - Refresh JWT token
+### Frontend
 
-### Plants
-- `GET /api/plants/` - List all plants
-- `POST /api/plants/` - Create new plant
-- `GET /api/plants/{id}/` - Get plant details
-- `PUT /api/plants/{id}/` - Update plant
-- `DELETE /api/plants/{id}/` - Delete plant
-
-### Maintenance
-- `GET /api/maintenance/` - List maintenance schedules
-- `POST /api/maintenance/` - Create maintenance task
-- `GET /api/maintenance/{id}/` - Get task details
-
-### Weather
-- `GET /api/weather/current/` - Get current weather
-- `GET /api/weather/forecast/` - Get weather forecast
-
-## 🚀 Deployment
-
-### Production Setup
-
-1. Configure production environment:
-```bash
-cp .env.example .env.production
-# Edit .env.production with your production values
-```
-
-2. Build production images:
-```bash
-docker-compose -f docker-compose.prod.yml build
-```
-
-3. Deploy using Docker Swarm:
-```bash
-docker swarm init
-docker stack deploy -c docker-compose.prod.yml gardening_app
-```
-
-### SSL Configuration
-
-1. Configure Nginx with SSL:
-```nginx
-server {
-    listen 443 ssl;
-    server_name your-domain.com;
-    
-    ssl_certificate /etc/letsencrypt/live/your-domain.com/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/your-domain.com/privkey.pem;
-    
-    location / {
-        proxy_pass http://frontend:3000;
-    }
-    
-    location /api {
-        proxy_pass http://backend:8000;
-    }
-}
-```
-
-## 👩‍💻 Development Workflow
-
-1. Create a new feature branch:
-```bash
-git checkout -b feature/your-feature-name
-```
-
-2. Run development environment:
-```bash
-docker-compose -f docker-compose.dev.yml up
-```
-
-3. Access development tools:
-- Frontend dev server: http://localhost:3000
-- Backend dev server: http://localhost:8000
-- pgAdmin: http://localhost:5050
-- Redis Commander: http://localhost:8081
-
-### Code Quality
-
-- Run linting:
-```bash
-# Frontend
-cd frontend && npm run lint
-
-# Backend
-cd backend && flake8
-```
-
-- Run type checking:
-```bash
-# Frontend
-cd frontend && npm run type-check
-
-# Backend
-cd backend && mypy .
-```
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch:
-```bash
-git checkout -b feature/amazing-feature
-```
-
-3. Commit your changes:
-```bash
-git commit -m 'Add amazing feature'
-```
-
-4. Push to the branch:
-```bash
-git push origin feature/amazing-feature
-```
-
-5. Open a Pull Request
-
-### Pull Request Guidelines
-- Include unit tests for new features
-- Update documentation as needed
-- Follow the existing code style
-- Keep commits atomic and well-described
-- Reference relevant issues in commits
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 👥 Authors
-
-- Zachariah Mayfield - Initial work
-
-## 🙏 Acknowledgments
-
-- Material-UI for the component library
-- Django REST Framework for the API framework
-- Docker for containerization
-- GitHub Actions for CI/CD
-
-## Backend Notes:
-- CORS (Cross-Origin Resource Sharing) middleware is crucial for frontend-backend communication
-- I have 4 services in my docker-compose.yml file:
-    1. backend (FastAPI application)
-    2. frontend (React application)
-    3. db (PostgreSQL database)
-    4. pgadmin (Database management UI)
-
-# Frontend Project Structure
-
-```
-frontend/
-├── src/
-│   ├── components/     # React components
-│   │   ├── index.js   # Component exports
-│   │   └── PlantForm.js
-│   ├── services/      # API and service functions
-│   │   ├── index.js   # Service exports
-│   │   └── api.js
-│   ├── __tests__/     # Test files
-│   ├── App.js         # Main application component
-│   └── index.js       # Application entry point
-```
-
-## Frontend Directory Organization
-
-### components/
-Contains reusable React components. Each component should:
-- Be in its own file
-- Export as default
-- Include prop-types
-- Have associated tests
-
-### services/
-Contains API calls and other services. The api.js file:
-- Handles all backend communication
-- Uses environment variables for configuration
-- Includes error handling
-- Returns promises for async operations
-
-
-
-Frontend Structure
-
-frontend/
-  src/
-    components/
-      Plant/
-        PlantList.js       // Separate list component
-        PlantForm.js       // Form component
-        PlantItem.js       // Individual plant display
-      common/             // Reusable components
-        Button/
-        Input/
-        Loading/
-    hooks/               // Custom React hooks
-      usePlants.js      // Plant data management
-      useForm.js        // Form handling
-    services/
-      api/
-        plantApi.js     // Plant-specific API calls
-        index.js        // API exports
-    utils/              // Helper functions
-    context/            // React context if needed
-    styles/            // CSS/styling files
-
-
-
-Backend Structure
-
-backend/
-  app/
-    api/
-      v1/              # API versioning
-        plants/
-        maintenance/
-    models/           # Database models
-    schemas/          # Pydantic schemas
-    services/        # Business logic
-    utils/           # Helper functions
-    core/           # Core configurations
-    tests/          # Test files
-
-
-
-Project Root
-
-gardening_app/
-  frontend/
-  backend/
-  docker/
-    docker-compose.yml
-    docker-compose.dev.yml
-    docker-compose.prod.yml
-  docs/              # Documentation
-  scripts/          # Build/deployment scripts
-  .github/          # CI/CD workflows
-  .env.example      # Environment template
-```
-
-## 🧹 Linting & Formatting
-
-### Frontend (React)
-- **Lint:**
-  ```sh
+- **Run all frontend tests:**
+  ```bash
   cd frontend
+  npm test
+  ```
+
+- **Linting:**
+  ```bash
   npm run lint
   ```
-- **Format:**
-  ```sh
-  cd frontend
+
+- **Formatting:**
+  ```bash
   npm run format
   ```
 
-### Backend (Python)
-- **Lint:**
-  ```sh
-  cd backend/app
-  flake8 .
-  ```
-- **Type Check:**
-  ```sh
-  cd backend/app
-  mypy .
-  ```
+---
 
-## 🧪 Type Checking
-- **Frontend:** (JS/React) - Use ESLint for code quality.
-- **Backend:** (Python) - Use mypy for static type checking.
+## 🌐 API Endpoints
 
-## 🚦 CI/CD Workflow
-- All pushes to `main` run tests, linting, formatting, and type checks automatically via GitHub Actions.
-- See `.github/workflows/ci-cd.yml` for details.
+All endpoints are prefixed with `/api/v1`.
+
+- `GET    /api/v1/plants`           - List all plants
+- `POST   /api/v1/plants`           - Create a new plant
+- `PUT    /api/v1/plants/id/{id}`   - Update a plant by ID
+- `PUT    /api/v1/plants/name/{name}` - Update a plant by name
+- `DELETE /api/v1/plants/id/{id}`   - Delete a plant by ID
+- `DELETE /api/v1/plants/name/{name}` - Delete a plant by name
+
+See [http://localhost:8000/docs](http://localhost:8000/docs) for interactive OpenAPI documentation.
+
+---
+
+## 🗄️ Database Management with pgAdmin
+
+- Access pgAdmin at [http://localhost:5050](http://localhost:5050)
+- Default login: `admin@admin.com` / `admin`
+- Add a new server:
+  - Host: `db`
+  - Port: `5432`
+  - Username: `postgres`
+  - Password: `password`
+- View and manage your `plants` table directly in the browser.
+
+---
+
+## 🛡️ Code Quality & CI/CD
+
+- **Pre-commit hooks:** Lint and format code before every commit.
+- **GitHub Actions:** Runs all tests, linting, and formatting on every push and pull request.
+- **Strict type checking:** SQLAlchemy 2.0 style models, mypy, and Pydantic for robust data validation.
+
+---
+
+## 👩‍💻 Development Workflow
+
+1. **Create a new branch:**
+   ```bash
+   git checkout -b feature/your-feature
+   ```
+
+2. **Make your changes and commit:**
+   ```bash
+   git add .
+   git commit -m "feat: add new feature"
+   ```
+
+3. **Push and open a pull request:**
+   ```bash
+   git push origin feature/your-feature
+   ```
+
+4. **CI/CD will automatically run all tests and checks.**
+
+---
+
+## 📝 Environment Variables
+
+- `DATABASE_URL` (optional): Override the default PostgreSQL connection string.
+- See `docker-compose.yml` for all service environment variables.
+
+---
+
+## 🧑‍🎓 For Beginners
+
+- All code is heavily commented for learning purposes.
+- See the `README_Files/` directory for extra backend, frontend, and database setup guides.
+
+---
+
+## 📄 License
+
+MIT License. See [LICENSE](LICENSE) for details.
+
+---
+
+## 🙏 Acknowledgements
+
+- Built with FastAPI, React, PostgreSQL, Docker, and the open-source community.
+
+---
