@@ -7,11 +7,13 @@ from pydantic import BaseModel
 app = FastAPI()
 router = APIRouter()
 
+
 # Define a Pydantic model for the plant data
 # This model is used to validate and serialize request/response data for plants.
 class Plant(BaseModel):
     name: str
     description: str
+
 
 # Route to get all plants
 # This endpoint returns a hardcoded list of plant dictionaries.
@@ -26,6 +28,7 @@ def get_plants():
         ]
     }
 
+
 # Route to create a new plant
 # This endpoint accepts a Plant object in the request body and returns a mock response.
 # In a real app, you would save the new plant to a database and generate a unique ID.
@@ -38,6 +41,7 @@ def create_plant(plant: Plant):
     }
     # Ideally, here you would save the new plant to a database.
     return {"message": "Plant created", "plant": new_plant}
+
 
 # Add router to the app
 # This line includes the router's endpoints in the FastAPI app instance.

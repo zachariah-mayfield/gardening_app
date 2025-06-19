@@ -1,9 +1,13 @@
 # type: ignore[import]
 # Standard SQLAlchemy imports for database functionality
-from sqlalchemy import create_engine          # Core SQLAlchemy functionality for database connection
-from sqlalchemy.ext.declarative import declarative_base  # Base class for declarative models
-from sqlalchemy.orm import sessionmaker       # Creates database session factory
-import os                                     # For environment variable access
+from sqlalchemy import (
+    create_engine,
+)  # Core SQLAlchemy functionality for database connection
+from sqlalchemy.ext.declarative import (
+    declarative_base,
+)  # Base class for declarative models
+from sqlalchemy.orm import sessionmaker  # Creates database session factory
+import os  # For environment variable access
 
 # Import our database models
 # These models define the structure of our database tables
@@ -15,8 +19,8 @@ from app import models
 # Uses environment variable if set, otherwise falls back to default values
 # This URL is used by Docker to connect to the PostgreSQL container
 SQLALCHEMY_DATABASE_URL = os.getenv(
-    "DATABASE_URL",                           # Look for DATABASE_URL in environment
-    "postgresql://postgres:password@db:5432/postgres"  # Default fallback URL
+    "DATABASE_URL",  # Look for DATABASE_URL in environment
+    "postgresql://postgres:password@db:5432/postgres",  # Default fallback URL
 )
 
 # Create the SQLAlchemy engine
@@ -34,9 +38,9 @@ engine = create_engine(
 # This is a factory for creating new database sessions
 # Each request will create a new session and close it when done
 SessionLocal = sessionmaker(
-    autocommit=False,    # Transactions won't be automatically committed
-    autoflush=False,     # Changes won't be automatically flushed to the database
-    bind=engine          # Bind the session to our database engine
+    autocommit=False,  # Transactions won't be automatically committed
+    autoflush=False,  # Changes won't be automatically flushed to the database
+    bind=engine,  # Bind the session to our database engine
 )
 
 # Create the declarative base class
@@ -44,20 +48,21 @@ SessionLocal = sessionmaker(
 # All our model classes will inherit from this
 Base = declarative_base()
 
+
 # Database Session Dependency
 # This function is used by FastAPI to provide a database session to each request.
 # It ensures that each request gets its own session, and that the session is closed after the request is complete.
 def get_db():
     """
     Creates and manages database sessions for API requests
-    
+
     This is a dependency that will be used by FastAPI
     It creates a new database session for each request
     The session is automatically closed when the request is complete
-    
+
     Yields:
         Session: SQLAlchemy database session
-    
+
     Usage:
         @app.get("/items/")
         def read_items(db: Session = Depends(get_db)):
@@ -66,9 +71,10 @@ def get_db():
     """
     db = SessionLocal()  # Create a new database session
     try:
-        yield db              # Use the session in the request
+        yield db  # Use the session in the request
     finally:
-        db.close()           # Make sure the session is closed after the request
+        db.close()  # Make sure the session is closed after the request
+
 
 # Initialize the database tables
 # This creates all tables defined in our models
