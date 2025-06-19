@@ -6,6 +6,7 @@ import React, { useState, useEffect } from 'react';
 // Import all necessary API functions
 import { fetchPlants, deletePlantById, deletePlantByName } from './services';
 import { PlantForm } from './components';
+import plantLogo from './logo.svg';
 
 /**
  * Main App Component
@@ -155,7 +156,14 @@ const App = () => {
   // Render the main UI for the app
   return (
     <div className="app-container">
-      <h1>Plant Tracker</h1>
+      {/* Hero Section */}
+      <header className="hero">
+        <img src={plantLogo} alt="Plant Logo" className="plant-logo" />
+        <h1 className="hero-title">Welcome to Plant Tracker 🌱</h1>
+        <p className="hero-subtitle">
+          Organize your garden, track your plants, and grow your green thumb!
+        </p>
+      </header>
 
       {/* Error Display: shows error messages to the user if any */}
       {error && (
@@ -175,45 +183,58 @@ const App = () => {
       {isLoading && <p>Loading plants...</p>}
 
       {/* Plant Form - handles both adding and editing */}
-      <PlantForm
-        onAddPlant={handleAddPlant}
-        onUpdatePlant={handleUpdatePlant}
-        plantToEdit={selectedPlant}
-        onCancel={handleCancelEdit}
-      />
+      <section className="form-section">
+        <PlantForm
+          onAddPlant={handleAddPlant}
+          onUpdatePlant={handleUpdatePlant}
+          plantToEdit={selectedPlant}
+          onCancel={handleCancelEdit}
+        />
+      </section>
 
       {/* Plant List: displays all plants and provides edit/delete buttons */}
-      <div className="plant-list">
+      <section className="plant-list-section">
         <h2>Your Plants</h2>
-        {plants.length === 0 ? (
-          <p>No plants yet. Add your first plant above!</p>
-        ) : (
-          <ul>
-            {plants.map((plant) => (
-              <li key={plant.id || plant.name} className="plant-item">
-                <div>
-                  <strong>{plant.name}</strong>: {plant.description}
-                </div>
-                {/* Edit button: allows user to edit this plant */}
-                <button
-                  onClick={() => handleEditClick(plant)}
-                  disabled={isLoading}
-                >
-                  Edit
-                </button>
-                {/* Delete button: allows user to delete this plant */}
-                <button
-                  onClick={() => handleDeletePlant(plant)}
-                  disabled={isLoading}
-                  style={{ marginLeft: '8px', color: 'red' }}
-                >
-                  Delete
-                </button>
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
+        <div className="plant-list">
+          {plants.length === 0 ? (
+            <p>No plants yet. Add your first plant above!</p>
+          ) : (
+            <ul>
+              {plants.map((plant) => (
+                <li key={plant.id || plant.name} className="plant-item">
+                  <div className="plant-card">
+                    <div className="plant-info">
+                      <span className="plant-name">🌿 <strong>{plant.name}</strong></span>
+                      <span className="plant-desc">{plant.description}</span>
+                    </div>
+                    <div className="plant-actions">
+                      <button
+                        onClick={() => handleEditClick(plant)}
+                        disabled={isLoading}
+                        className="edit-btn"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => handleDeletePlant(plant)}
+                        disabled={isLoading}
+                        className="delete-btn"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="footer">
+        <span role="img" aria-label="plant">🌱</span> Happy Gardening! &copy; {new Date().getFullYear()}
+      </footer>
     </div>
   );
 };

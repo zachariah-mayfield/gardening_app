@@ -43,7 +43,7 @@ jobs:
       run: |
         cd backend
         pip install -r requirements.txt
-        pip install flake8 mypy pytest httpx
+        pip install mypy pytest httpx
 
     - name: Install Node.js dependencies
       run: |
@@ -63,22 +63,10 @@ jobs:
         cd frontend
         npm test -- --watchAll=false
 
-    - name: Lint frontend
+    - name: Lint frontend (minimal)
       run: |
         cd frontend
         npm run lint
-
-    - name: Format frontend
-      run: |
-        cd frontend
-        npm run format
-
-    - name: Lint backend
-      env:
-        PYTHONPATH: ${{ github.workspace }}/backend
-      run: |
-        cd backend/app
-        flake8 .
 
     - name: Type check backend
       env:

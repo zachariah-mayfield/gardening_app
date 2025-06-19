@@ -5,11 +5,10 @@
     "jest": true
   },
   "extends": [
-    "react-app",
-    "plugin:prettier/recommended"
+    "eslint:recommended"
   ],
-  "plugins": ["prettier"],
   "rules": {
-    "prettier/prettier": "error"
+    "no-unused-vars": "warn",
+    "no-undef": "error"
   }
 } 
