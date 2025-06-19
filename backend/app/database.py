@@ -1,7 +1,7 @@
 # type: ignore[import]
 # Standard SQLAlchemy imports for database functionality
-from sqlalchemy import create_engine  # Core SQLAlchemy functionality for database connection
-from sqlalchemy.ext.declarative import declarative_base  # Base class for declarative models
+from sqlalchemy import create_engine  # Core SQLAlchemy functionality for database
+from sqlalchemy.ext.declarative import declarative_base  # Base class for declarative
 from sqlalchemy.orm import sessionmaker  # Creates database session factory
 import os  # For environment variable access
 

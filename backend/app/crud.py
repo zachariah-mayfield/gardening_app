@@ -6,5 +6,5 @@
 # In this project, the CRUD logic is currently handled directly in the router file (plant_router.py),
 # so this file is empty. You can use it in the future if you want to refactor or expand your backend.
 
-# This file contains CRUD (Create, Read, Update, Delete) operations for the Plant model.
-# Each function interacts with the database using SQLAlchemy ORM.
+# This file contains CRUD (Create, Read, Update, Delete) operations for the Plant
+# model. Each function interacts with the database using SQLAlchemy ORM.
