@@ -5,11 +5,6 @@ from sqlalchemy.ext.declarative import declarative_base  # Base class for declar
 from sqlalchemy.orm import sessionmaker  # Creates database session factory
 import os  # For environment variable access
 
-# Import our database models
-# These models define the structure of our database tables
-# The circular import is handled by importing inside functions
-from app import models
-
 # Database connection URL
 # Format: postgresql://username:password@host:port/database_name
 # Uses environment variable if set, otherwise falls back to default values
