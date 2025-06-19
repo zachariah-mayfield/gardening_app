@@ -8,6 +8,7 @@ from pydantic import BaseModel
 class PlantBase(BaseModel):
     name: str  # The name of the plant (required)
     description: str  # A short description of the plant (required)
+    watering_schedule: str  # How often to water the plant (required)
 
 
 # This schema is used for creating a new plant (POST requests).

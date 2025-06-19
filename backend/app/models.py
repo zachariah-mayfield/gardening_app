@@ -15,3 +15,5 @@ class Plant(Base):
     name: Mapped[str] = mapped_column(String, unique=True, index=True)
     # description: a short description of the plant
     description: Mapped[str] = mapped_column(String, index=True)
+    # watering_schedule: how often to water the plant (e.g., "Once a week")
+    watering_schedule: Mapped[str] = mapped_column(String, index=True)

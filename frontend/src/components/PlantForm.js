@@ -22,6 +22,7 @@ const PlantForm = ({ onAddPlant, onUpdatePlant, plantToEdit, onCancel }) => {
   // isLoading: whether the form is currently submitting
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
+  const [wateringSchedule, setWateringSchedule] = useState('');
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -34,6 +35,7 @@ const PlantForm = ({ onAddPlant, onUpdatePlant, plantToEdit, onCancel }) => {
     if (plantToEdit) {
       setName(plantToEdit.name);
       setDescription(plantToEdit.description);
+      setWateringSchedule(plantToEdit.wateringSchedule || '');
     }
   }, [plantToEdit]);
 
@@ -49,7 +51,7 @@ const PlantForm = ({ onAddPlant, onUpdatePlant, plantToEdit, onCancel }) => {
     setError(null); // Clear any previous errors
 
     // Validate form fields: must not be empty or whitespace
-    if (!name.trim() || !description.trim()) {
+    if (!name.trim() || !description.trim() || !wateringSchedule.trim()) {
       setError('Please fill in all fields');
       setIsLoading(false);
       return;
@@ -59,6 +61,7 @@ const PlantForm = ({ onAddPlant, onUpdatePlant, plantToEdit, onCancel }) => {
     const plantData = {
       name: name.trim(),
       description: description.trim(),
+      watering_schedule: wateringSchedule.trim(),
     };
 
     try {
@@ -90,6 +93,7 @@ const PlantForm = ({ onAddPlant, onUpdatePlant, plantToEdit, onCancel }) => {
       if (data) {
         setName('');
         setDescription('');
+        setWateringSchedule('');
         setError(null);
       }
     } catch (error) {
@@ -147,6 +151,20 @@ const PlantForm = ({ onAddPlant, onUpdatePlant, plantToEdit, onCancel }) => {
             autoComplete="off"
             disabled={isLoading} // Disable textarea while loading
           ></textarea>
+        </div>
+
+        <div>
+          <label htmlFor="wateringSchedule">Watering Schedule:</label>
+          <input
+            type="text"
+            id="wateringSchedule"
+            name="wateringSchedule"
+            value={wateringSchedule}
+            onChange={(e) => setWateringSchedule(e.target.value)}
+            required
+            autoComplete="off"
+            disabled={isLoading}
+          />
         </div>
 
         <div className="form-buttons">

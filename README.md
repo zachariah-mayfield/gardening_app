@@ -1,7 +1,6 @@
 # Gardening App
 
 # Possible names for this web application:
-- Plant Tracker Social
 - Plant Tracker
 - Social Gardening
 

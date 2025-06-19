@@ -105,6 +105,12 @@ body {
   margin-top: 0.4em;
 }
 
+.plant-watering {
+  color: #90caf9;
+  font-size: 0.98rem;
+  margin-top: 0.4em;
+}
+
 .plant-actions {
   display: flex;
   gap: 0.5rem;
@@ -145,12 +151,16 @@ body {
   text-align: center;
 }
 .success-message {
-  color: #1b5e20;
-  background: #c8e6c9;
+  color: #fff !important;
+  background: #1976d2 !important;
+  border: 1.5px solid #90caf9;
   border-radius: 6px;
   padding: 0.5em 1em;
   margin-bottom: 1em;
   text-align: center;
+  font-weight: 600;
+  font-size: 1.1rem;
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.10);
 }
 
 .footer {
@@ -179,4 +189,17 @@ body {
 .plant-form button[type="submit"]:hover {
   background: #0d47a1 !important;
   color: #fff !important;
+}
+
+input, textarea {
+  background: #23272f !important;
+  color: #fff !important;
+  border: 1px solid #90caf9 !important;
+  border-radius: 6px;
+  padding: 0.5em;
+  font-size: 1rem;
+}
+input:focus, textarea:focus {
+  outline: 2px solid #1976d2 !important;
+  background: #2c313a !important;
 }
