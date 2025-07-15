@@ -1,0 +1,24 @@
+/*
+ * index.css
+ *
+ * This file contains global CSS styles for your React application.
+ * Any styles defined here will apply to all components unless overridden by more specific styles.
+ *
+ * You can use this file to set default fonts, colors, layout, and other styles that should be consistent across your app.
+ *
+ * In React, you can also use CSS modules or styled-components for more component-specific styling.
+ */
+
+body {
+  margin: 0;
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
+    'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family:
+    source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}

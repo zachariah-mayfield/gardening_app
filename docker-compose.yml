@@ -1,0 +1,81 @@
+services:
+  backend:
+    build: ./backend
+    container_name: backend
+    ports:
+      - "8000:8000"
+    entrypoint: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+    restart: unless-stopped  # Added restart policy
+    depends_on:
+      db:
+        condition: service_healthy  # Wait for DB to be healthy
+    env_file:
+      - .env
+    environment:
+      - DATABASE_URL=${DATABASE_URL}
+    networks:
+      - app-network
+    healthcheck:  # Added healthcheck for backend
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    ports:
+      - "3000:3000"
+    restart: unless-stopped  # Added restart policy
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+  db:
+    image: postgres:13
+    container_name: postgres
+    restart: always
+    env_file:
+      - .env
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-gardening_db}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
+    volumes:
+      - gardening_db_data:/var/lib/postgresql/data  # Renamed for clarity
+    ports:
+      - "5432:5432"
+    networks:
+      - app-network
+    healthcheck:  # Added healthcheck for database
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    restart: unless-stopped  # Changed to unless-stopped
+    ports:
+      - "5050:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-admin@admin.com}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin  # Added persistent volume
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  gardening_db_data:  # Renamed volume
+    name: gardening_app_db_data  # Explicit naming
+  pgadmin_data:  # New volume for pgadmin
+    name: gardening_app_pgadmin_data  # Explicit naming

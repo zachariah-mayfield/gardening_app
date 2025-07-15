@@ -1,0 +1,92 @@
+# === Global Python ignores ===
+__pycache__/
+*.py[cod]
+*.pyc
+*.pyo
+*.pyd
+*.egg
+*.egg-info/
+*.egg-info
+pip-log.txt
+pip-delete-this-directory.txt
+build/
+dist/
+develop-eggs/
+downloads/
+eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+.installed.cfg
+.Python
+coverage/
+htmlcov/
+.tox/
+.pytest_cache/
+test-reports/
+
+# === Node / Frontend ignores ===
+node_modules/
+.pnp/
+.pnp.js
+build/
+coverage/
+.cache/
+.parcel-cache/
+.sass-cache/
+.next/
+.nuxt/
+*.css.map
+*.sass.map
+*.scss.map
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+debug.log
+
+# === Environment variables ===
+.env
+.env.local
+.env.development
+.env.production
+.env.development.local
+.env.test.local
+.env.production.local
+
+# === IDE / Editor ignores ===
+.vscode/
+.idea/
+*.swo
+*.swp
+*.swn
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# === OS / File system ===
+.DS_Store
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# === Docker ===
+.docker/
+docker-compose.override.yml
+
+# === Backend specific ===
+celerybeat-schedule
+celerybeat.pid
+
+# === Database ===
+postgres_data/
+*.sqlite3
+*.db
+
+# === Virtual Environment ===
+venv/
+
